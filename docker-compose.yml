@@ -1,0 +1,8 @@
+version: '3.3'
+
+services:
+  serializer:
+    build: .
+    volumes:
+      - ./:/src
+    working_dir: /src

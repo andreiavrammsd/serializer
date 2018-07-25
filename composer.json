@@ -1,0 +1,36 @@
+{
+    "name": "andreiavrammsd/serializer",
+    "type": "library",
+    "description": "String to object",
+    "keywords": ["serializer"],
+    "homepage": "https://www.andreiavram.ro/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrei Avram",
+            "email": "avramandrei@ymail.com",
+            "homepage": "https://www.andreiavram.ro/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "phpstan/phpstan": "^0.10",
+        "phpmd/phpmd": "^2.6",
+        "overtrue/phplint": "^1.1"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Serializer\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Serializer\\Tests\\": "tests/"
+        }
+    },
+    "version": "0.1-dev"
+}
