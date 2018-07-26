@@ -19,11 +19,11 @@ class Serializer extends TestCase
         $input = '{
             "location": {
                 "name": "London",
-                "region": "City of London, Greater London",
+                "region": "",
                 "country": "United Kingdom",
                 "lat": 51.52,
                 "lon": -0.11,
-                "tz_id": "Europe/London",
+                "tz_id": " Europe/London ",
                 "localtime_epoch": 1531989523,
                 "localtime": "2018-07-19 9:38"
             },
@@ -63,7 +63,12 @@ class Serializer extends TestCase
         /** @var Location $location */
         $location = $object->getLocation();
         $this->assertSame('London', $location->getName());
-        $this->assertSame('United Kingdom', $location->getCountry());
+        $this->assertSame('', $location->getRegion());
+        $this->assertSame(51.52, $location->getLat());
+        $this->assertSame('-0.11', $location->getLon());
+        $this->assertSame('Europe/London', $location->timezone);
+        $this->assertSame(1531989523, $location->getLocaltimeEpoch());
+        $this->assertEquals(\DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
 
         /** @var Current $current */
         $current = $object->getCurrent();
