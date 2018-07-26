@@ -64,7 +64,7 @@ class Type implements DefinitionInterface
             case 'collection':
                 if (is_array($value)) {
                     $out = [];
-                    foreach ($value as $k => $d) { // do not cast to array, return null
+                    foreach ($value as $k => $d) {
                         $out [] = $this->serializer->parse($d, $model->getClass());
                     }
 
@@ -75,8 +75,21 @@ class Type implements DefinitionInterface
                 break;
 
             case 'DateTime':
-                $format = $typeArgs[0];
-                $value = \DateTime::createFromFormat($format, $value);
+
+                $res = false;
+                foreach ($typeArgs as $format) {
+                    $res = \DateTime::createFromFormat($format, $value);
+                    if (false !== $res) {
+                        break;
+                    }
+                }
+                
+                if (false === $res) {
+                    $value = null;
+                } else {
+                    $value = $res;
+                }
+
                 break;
 
             default:
