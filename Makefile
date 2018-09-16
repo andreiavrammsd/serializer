@@ -2,6 +2,12 @@
 
 all: qa
 
+build:
+	docker build . -f dev/Dockerfile -t serializer
+
+run:
+	docker run -ti --rm -v $(CURDIR):/src serializer sh
+
 test:
 	./vendor/phpunit/phpunit/phpunit tests
 

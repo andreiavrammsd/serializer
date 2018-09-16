@@ -6,11 +6,10 @@ Very basic serializer/unserializer.
 
 ## Development
 
-* Requirements:
-    * Docker
-    * Docker Compose
+* Requirements: Docker, Make
 
-* Run:
-    * docker-compose run serializer sh
-    * composer install
-    * make
+* Setup: make build, make run, composer install
+
+* Run: make run
+
+* Test/QA (inside container): make, make test
