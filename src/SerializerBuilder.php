@@ -11,13 +11,13 @@ use Serializer\Definition\Callback;
 class SerializerBuilder
 {
     /**
-     * @param string $format
+     * @param Config $config
      * @return Serializer
      * @throws \Exception
      */
-    public static function build($format)
+    public static function build(Config $config)
     {
-        $format = FormatFactory::get($format);
+        $format = FormatFactory::get($config->getFormat());
         $customTypeHandler = new CustomTypeHandler();
         $definitions = [
             Property::class,

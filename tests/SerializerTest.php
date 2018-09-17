@@ -3,6 +3,7 @@
 namespace Serializer\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Serializer\Config;
 use Serializer\SerializerBuilder;
 use Serializer\Tests\Response\Condition;
 use Serializer\Tests\Response\Current;
@@ -14,7 +15,9 @@ class Serializer extends TestCase
 {
     public function testUnserialize()
     {
-        $serializer = SerializerBuilder::build('json');
+        $config = new Config();
+        $config->setFormat('json');
+        $serializer = SerializerBuilder::build($config);
 
         $input = '{
             "location": {
