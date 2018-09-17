@@ -7,7 +7,7 @@ class FormatFactory
     /**
      * @param string $format
      * @return FormatInterface
-     * @throws \Exception
+     * @throws UnknownFormatException
      */
     public static function get($format)
     {
@@ -15,7 +15,7 @@ class FormatFactory
             case 'json':
                 return new JsonFormat();
             default:
-                throw new \Exception(sprintf('Unknown format: %s', $format));
+                throw new UnknownFormatException(sprintf('Unknown format: %s', $format));
         }
     }
 }

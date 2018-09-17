@@ -7,13 +7,14 @@ use Serializer\Format\FormatFactory;
 use Serializer\Definition\Property;
 use Serializer\Definition\Type;
 use Serializer\Definition\Callback;
+use Serializer\Format\UnknownFormatException;
 
 class SerializerBuilder
 {
     /**
      * @param Config $config
      * @return Serializer
-     * @throws \Exception
+     * @throws UnknownFormatException
      */
     public static function build(Config $config)
     {

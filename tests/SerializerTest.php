@@ -4,7 +4,9 @@ namespace Serializer\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Serializer\Config;
+use Serializer\Format\UnknownFormatException;
 use Serializer\SerializerBuilder;
+use Serializer\SerializerException;
 use Serializer\Tests\Response\Condition;
 use Serializer\Tests\Response\Current;
 use Serializer\Tests\Response\CurrentWeather;
@@ -105,5 +107,19 @@ class Serializer extends TestCase
         $this->assertSame(12, $object->getAge());
         $this->assertContainsOnlyInstancesOf($class, $object->friends);
         $this->assertCount(2, $object->friends);
+    }
+
+    public function testUnknownFormat()
+    {
+        $config = new Config();
+        $config->setFormat('unknown');
+        
+        try {
+            SerializerBuilder::build($config);
+            $this->fail('No exception was thrown');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(SerializerException::class, $e);
+            $this->assertInstanceOf(UnknownFormatException::class, $e);
+        }
     }
 }
