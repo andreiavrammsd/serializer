@@ -11,7 +11,7 @@ interface DefinitionInterface
 
     /**
      * @param mixed $data
-     * @return array
+     * @return array|string
      */
     public function getDefinition($data);
 

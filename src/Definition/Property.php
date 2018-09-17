@@ -7,11 +7,17 @@ use Serializer\Variable;
 
 class Property implements DefinitionInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getDefinition($data)
     {
         return trim($data, '" ');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setVariableValue($definition, Variable $variable, Model $model)
     {
         $data = $model->getData();

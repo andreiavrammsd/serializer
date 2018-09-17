@@ -72,7 +72,7 @@ class Serializer
         $object = $reflectionClass->newInstanceWithoutConstructor();
 
         foreach ($reflectionClass->getProperties() as $property) {
-            $definitions = $this->getDefinitions($property->getDocComment());
+            $definitions = $this->getDefinitions((string)$property->getDocComment());
 
             $variable = new Variable($property, $object);
             $variable->setValue($this->getDefaultValue($property, $model->getData()));

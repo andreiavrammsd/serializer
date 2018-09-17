@@ -24,6 +24,9 @@ class Type implements DefinitionInterface
         $this->serializer = $serializer;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefinition($data)
     {
         $re = preg_match_all(self::ARGUMENTS_PATTERN, $data, $args);
@@ -33,6 +36,9 @@ class Type implements DefinitionInterface
         return ['name' => $name, 'args' => $args];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setVariableValue($definition, Variable $variable, Model $model)
     {
         $type = $definition['name'];
@@ -75,7 +81,6 @@ class Type implements DefinitionInterface
                 break;
 
             case 'DateTime':
-
                 $res = false;
                 foreach ($typeArgs as $format) {
                     $res = \DateTime::createFromFormat($format, $value);
@@ -97,12 +102,15 @@ class Type implements DefinitionInterface
 
                 if ($match) {
                     if ($match[1] == 'array') {
-                        $out = [];
-                        foreach ((array)$value as $k => $d) { // do not cast to array, return null
-                            $out [] = $this->serializer->parse($d, $model->getClass());
+                        if (is_array($value)) {
+                            $out = [];
+                            foreach ($value as $k => $d) {
+                                $out [] = $this->serializer->parse($d, $model->getClass());
+                            }
+                            $value = $out;
+                        } else {
+                            $value = null;
                         }
-
-                        $value = $out;
                     }
 
                     if ($match[1] == 'collection') {
@@ -110,7 +118,7 @@ class Type implements DefinitionInterface
                             $m = $match[2];
 
                             $out = [];
-                            foreach ($value as $k => $d) { // do not cast to array, return null
+                            foreach ($value as $k => $d) {
                                 $out [] = new $m($this->serializer->parse($d, $model->getClass()));
                             }
 
