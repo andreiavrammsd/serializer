@@ -10,6 +10,14 @@ class Config
     private $format;
 
     /**
+     * @return string
+     */
+    public function getFormat()
+    {
+        return $this->format;
+    }
+
+    /**
      * @param string $format
      * @return $this
      */
@@ -18,13 +26,5 @@ class Config
         $this->format = $format;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFormat()
-    {
-        return $this->format;
     }
 }

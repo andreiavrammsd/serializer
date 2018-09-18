@@ -3,8 +3,8 @@
 namespace Serializer;
 
 use Serializer\CustomType\CustomTypeHandler;
-use Serializer\Format\FormatInterface;
 use Serializer\Definition\DefinitionInterface;
+use Serializer\Format\FormatInterface;
 
 class Serializer
 {

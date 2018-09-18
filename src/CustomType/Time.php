@@ -10,7 +10,7 @@ class Time implements CustomTypeInterface
     private $formats;
 
     /**
-     * @param array<int, mixed> $args
+     * @param array <int, mixed> $args
      */
     public function __construct(...$args)
     {

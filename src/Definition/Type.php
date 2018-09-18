@@ -29,11 +29,14 @@ class Type implements DefinitionInterface
      */
     public function getDefinition($data)
     {
-        $re = preg_match_all(self::ARGUMENTS_PATTERN, $data, $args);
-        $args = $re !== false ? $args[1] : [];
+        $matches = preg_match_all(self::ARGUMENTS_PATTERN, $data, $args);
+        $args = $matches !== false ? $args[1] : [];
         $name = array_shift($args);
 
-        return ['name' => $name, 'args' => $args];
+        return [
+            'name' => $name,
+            'args' => $args,
+        ];
     }
 
     /**
@@ -45,94 +48,120 @@ class Type implements DefinitionInterface
         $typeArgs = $definition['args'];
 
         $value = $variable->getValue();
+        $result = null;
 
         switch ($type) {
             case 'int':
-                $value = (int)$value;
+                $result = (int)$value;
                 break;
 
             case 'float':
-                $value = (float)$value;
+                $result = (float)$value;
                 break;
 
             case 'string':
-                $value = (string)$value;
+                $result = (string)$value;
                 break;
 
             case 'bool':
-                $value = (bool)$value;
+                $result = (bool)$value;
                 break;
 
             case 'array':
-                $value = (array)$value;
+                $result = (array)$value;
                 break;
 
             case 'collection':
                 if (is_array($value)) {
-                    $out = [];
-                    foreach ($value as $k => $d) {
-                        $out [] = $this->serializer->parse($d, $model->getClass());
-                    }
-
-                    $value = new Collection($out); // needs recursion? check level n
-                } else {
-                    $value = null;
+                    $result = $this->getCollection($value, $model);
                 }
                 break;
 
             case 'DateTime':
-                $res = false;
-                foreach ($typeArgs as $format) {
-                    $res = \DateTime::createFromFormat($format, $value);
-                    if (false !== $res) {
-                        break;
-                    }
-                }
-                
-                if (false === $res) {
-                    $value = null;
-                } else {
-                    $value = $res;
-                }
-
+                $result = $this->getDateTime($value, $typeArgs);
                 break;
 
             default:
                 preg_match(self::ITEM_SET_PATTERN, $type, $match);
 
                 if ($match) {
-                    if ($match[1] == 'array') {
-                        if (is_array($value)) {
-                            $out = [];
-                            foreach ($value as $k => $d) {
-                                $out [] = $this->serializer->parse($d, $model->getClass());
-                            }
-                            $value = $out;
-                        } else {
-                            $value = null;
-                        }
+                    if ($match[1] == 'array' && is_array($value)) {
+                        $result = $this->getArray($value, $model);
                     }
 
-                    if ($match[1] == 'collection') {
-                        if (is_array($value)) {
-                            $m = $match[2];
-
-                            $out = [];
-                            foreach ($value as $k => $d) {
-                                $out [] = new $m($this->serializer->parse($d, $model->getClass()));
-                            }
-
-                            $value = new Collection($out);
-                        } else {
-                            $value = null;
-                        }
+                    if ($match[1] == 'collection' && is_array($value)) {
+                        $objectClass = $match[2];
+                        $result = $this->getCollectionOfType($value, $model, $objectClass);
                     }
                 } else {
-                    $value = $this->serializer->parse($value, $type, $typeArgs);
+                    $result = $this->serializer->parse($value, $type, $typeArgs);
                 }
                 break;
         }
 
-        $variable->setValue($value);
+        $variable->setValue($result);
+    }
+
+    /**
+     * @param array $value
+     * @param Model $model
+     * @return Collection
+     */
+    private function getCollection(array $value, Model $model)
+    {
+        $out = [];
+        foreach ($value as $v) {
+            $out [] = $this->serializer->parse($v, $model->getClass());
+        }
+
+        return new Collection($out); // needs recursion? check level n
+    }
+
+    /**
+     * @param mixed $value
+     * @param array $typeArgs
+     * @return \DateTime|null
+     */
+    private function getDateTime($value, array $typeArgs)
+    {
+        foreach ($typeArgs as $format) {
+            $dateTime = \DateTime::createFromFormat($format, $value);
+            if (false !== $dateTime) {
+                return $dateTime;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $value
+     * @param Model $model
+     * @return array
+     */
+    private function getArray($value, $model)
+    {
+        $result = [];
+        foreach ($value as $v) {
+            $result [] = $this->serializer->parse($v, $model->getClass());
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $value
+     * @param Model $model
+     * @param string $objectClass
+     * @return Collection
+     */
+    private function getCollectionOfType(array $value, Model $model, $objectClass)
+    {
+        $out = [];
+        foreach ($value as $d) {
+            $out [] = new $objectClass($this->serializer->parse($d, $model->getClass()));
+        }
+
+        return new Collection($out);
     }
 }

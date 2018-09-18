@@ -3,10 +3,10 @@
 namespace Serializer;
 
 use Serializer\CustomType\CustomTypeHandler;
-use Serializer\Format\FormatFactory;
+use Serializer\Definition\Callback;
 use Serializer\Definition\Property;
 use Serializer\Definition\Type;
-use Serializer\Definition\Callback;
+use Serializer\Format\FormatFactory;
 use Serializer\Format\UnknownFormatException;
 
 class SerializerBuilder

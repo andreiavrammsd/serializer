@@ -12,10 +12,13 @@ class Callback implements DefinitionInterface
      */
     public function getDefinition($data)
     {
-        $re = preg_match_all(Type::ARGUMENTS_PATTERN, $data, $args);
-        $args = $re !== false ? $args[1] : [];
+        $matches = preg_match_all(Type::ARGUMENTS_PATTERN, $data, $args);
+        $args = $matches !== false ? $args[1] : [];
         $name = array_shift($args);
-        return ['name' => $name, 'args' => $args];
+        return [
+            'name' => $name,
+            'args' => $args,
+        ];
     }
 
     /**
