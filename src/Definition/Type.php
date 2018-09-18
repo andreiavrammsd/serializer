@@ -94,7 +94,7 @@ class Type implements DefinitionInterface
                         $result = $this->getCollectionOfType($value, $model, $objectClass);
                     }
                 } else {
-                    $result = $this->serializer->parse($value, $type, $typeArgs);
+                    $result = $this->serializer->parse($value, $type);
                 }
                 break;
         }

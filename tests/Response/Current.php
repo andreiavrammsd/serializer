@@ -6,7 +6,7 @@ class Current
 {
     /**
      * @Serializer\Property("last_updated")
-     * @Serializer\Type("Serializer\CustomType\Time","Y-m-d H:i", "Y-m-d", " ")
+     * @Serializer\Type("DateTime","Y-m-d H:i", "Y-m-d", " ")
      */
     private $lastUpdated;
 

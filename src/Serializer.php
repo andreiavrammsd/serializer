@@ -2,7 +2,6 @@
 
 namespace Serializer;
 
-use Serializer\CustomType\CustomTypeHandler;
 use Serializer\Definition\DefinitionInterface;
 use Serializer\Format\FormatInterface;
 
@@ -16,23 +15,16 @@ class Serializer
     private $format;
 
     /**
-     * @var CustomTypeHandler
-     */
-    private $customType;
-
-    /**
      * @var array[DefinitionInterface]
      */
     private $definitionHandlers;
 
     /**
      * @param FormatInterface $format
-     * @param CustomTypeHandler $customType
      */
-    public function __construct(FormatInterface $format, CustomTypeHandler $customType)
+    public function __construct(FormatInterface $format)
     {
         $this->format = $format;
-        $this->customType = $customType;
     }
 
     /**
@@ -58,15 +50,10 @@ class Serializer
     /**
      * @param mixed $data
      * @param string $class
-     * @param array $args
      * @return object
      */
-    public function parse($data, $class, $args = [])
+    public function parse($data, $class)
     {
-        if ($this->customType->isCustomType($class)) {
-            return $this->customType->getValue($class, $args, $data);
-        }
-
         $model = new Model($data, $class);
         $reflectionClass = new \ReflectionClass($class);
         $object = $reflectionClass->newInstanceWithoutConstructor();

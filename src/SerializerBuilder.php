@@ -2,7 +2,6 @@
 
 namespace Serializer;
 
-use Serializer\CustomType\CustomTypeHandler;
 use Serializer\Definition\Callback;
 use Serializer\Definition\Property;
 use Serializer\Definition\Type;
@@ -19,14 +18,13 @@ class SerializerBuilder
     public static function build(Config $config)
     {
         $format = FormatFactory::get($config->getFormat());
-        $customTypeHandler = new CustomTypeHandler();
         $definitions = [
             Property::class,
             Type::class,
             Callback::class,
         ];
 
-        $serializer = new Serializer($format, $customTypeHandler);
+        $serializer = new Serializer($format);
         foreach ($definitions as $definition) {
             $serializer->registerDefinitionHandler($definition);
         }
