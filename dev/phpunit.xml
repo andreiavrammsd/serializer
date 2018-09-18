@@ -10,7 +10,7 @@
         stopOnSkipped="true"
         stopOnRisky="true">
         <logging>
-                <log type="coverage-html" target="/src/_reports/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" />
+                <log type="coverage-html" target="/src/_reports/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="70" highLowerBound="90" />
         </logging>
         <filter>
                 <whitelist>
