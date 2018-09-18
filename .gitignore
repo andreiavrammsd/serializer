@@ -1,4 +1,5 @@
 composer.lock
 vendor/
+_reports/
 .idea
 .phplint-cache

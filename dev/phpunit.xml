@@ -1,0 +1,25 @@
+<phpunit
+        verbose="true"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        stopOnError="true"
+        stopOnFailure="true"
+        stopOnIncomplete="true"
+        stopOnSkipped="true"
+        stopOnRisky="true">
+        <logging>
+                <log type="coverage-html" target="/src/_reports/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" />
+        </logging>
+        <filter>
+                <whitelist>
+                        <directory>/src/src/</directory>
+                </whitelist>
+        </filter>
+        <testsuites>
+                <testsuite name="all">
+                        <directory>tests</directory>
+                </testsuite>
+        </testsuites>
+</phpunit>

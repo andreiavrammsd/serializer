@@ -13,7 +13,7 @@ use Serializer\Tests\Response\CurrentWeather;
 use Serializer\Tests\Response\Location;
 use Serializer\Tests\Response\User;
 
-class Serializer extends TestCase
+class SerializerTest extends TestCase
 {
     public function testUnserialize()
     {
@@ -30,7 +30,9 @@ class Serializer extends TestCase
                 "lon": -0.11,
                 "tz_id": " Europe/London ",
                 "localtime_epoch": 1531989523,
-                "localtime": "2018-07-19 9:38"
+                "localtime": "2018-07-19 9:38",
+                "localtime2": "2018-07-19 9:38",
+                "values": [1, "a"]
             },
             "current": {
                 "last_updated_epoch": 1531989006,
@@ -74,6 +76,8 @@ class Serializer extends TestCase
         $this->assertSame('Europe/London', $location->timezone);
         $this->assertSame(1531989523, $location->getLocaltimeEpoch());
         $this->assertEquals(\DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
+        $this->assertEquals(null, $location->localtime2);
+        $this->assertEquals([1, 'a'], $location->values);
 
         /** @var Current $current */
         $current = $object->getCurrent();

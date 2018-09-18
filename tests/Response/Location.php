@@ -48,6 +48,18 @@ class Location
      */
     private $localtime;
     
+    /**
+     * @Serializer\Property("localtime2")
+     * @Serializer\Type("DateTime", "Y-m-d H")
+     */
+    public $localtime2;
+
+    /**
+     * @Serializer\Property("values")
+     * @Serializer\Type("array")
+     */
+    public $values;
+    
     public function getName()
     {
         return $this->name;

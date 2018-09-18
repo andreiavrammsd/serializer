@@ -9,4 +9,8 @@ RUN apk add make
 
 COPY dev/dev.ini /usr/local/etc/php/conf.d/z-dev.ini
 
+RUN apk add --update alpine-sdk autoconf
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
+
 WORKDIR /src

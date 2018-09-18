@@ -43,7 +43,6 @@ class Collection implements \Iterator, \Countable
      */
     public function key()
     {
-
         return $this->index;
     }
 
@@ -52,7 +51,6 @@ class Collection implements \Iterator, \Countable
      */
     public function next()
     {
-
         ++$this->index;
     }
 

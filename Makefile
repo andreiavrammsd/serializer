@@ -9,7 +9,7 @@ run:
 	docker run -ti --rm -v $(CURDIR):/src serializer sh
 
 test:
-	./vendor/phpunit/phpunit/phpunit tests
+	./vendor/phpunit/phpunit/phpunit tests -c dev/phpunit.xml
 
 qa: test
 	./vendor/phpstan/phpstan/bin/phpstan analyse --level 7 src

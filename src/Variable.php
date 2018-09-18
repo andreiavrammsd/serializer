@@ -40,12 +40,4 @@ class Variable
     {
         return $this->property->getValue($this->object);
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->property->getName();
-    }
 }
