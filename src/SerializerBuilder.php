@@ -63,7 +63,10 @@ class SerializerBuilder
      */
     public function build()
     {
-        $parser = new Parser($this->definitions);
+        $parser = new Parser();
+        foreach ($this->definitions as $class) {
+            $parser->registerDefinitionHandler(new $class($parser));
+        }
 
         return new Serializer($this->format, $parser);
     }

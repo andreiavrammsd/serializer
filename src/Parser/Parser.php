@@ -14,13 +14,11 @@ class Parser implements ParserInterface
     private $definitionHandlers;
 
     /**
-     * @param array $definitions
+     * {@inheritdoc}
      */
-    public function __construct(array $definitions)
+    public function registerDefinitionHandler(DefinitionInterface $handler)
     {
-        foreach ($definitions as $definition) {
-            $this->definitionHandlers [] = new $definition($this);
-        }
+        $this->definitionHandlers []= $handler;
     }
 
     /**
