@@ -7,7 +7,6 @@ use Serializer\Config;
 use Serializer\Format\UnknownFormatException;
 use Serializer\SerializerBuilder;
 use Serializer\SerializerException;
-use Serializer\SerializerInterface;
 use Serializer\Tests\Response\Condition;
 use Serializer\Tests\Response\Current;
 use Serializer\Tests\Response\CurrentWeather;

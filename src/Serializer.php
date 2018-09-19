@@ -28,9 +28,7 @@ class Serializer implements SerializerInterface
     }
 
     /**
-     * @param string $input
-     * @param string $class
-     * @return mixed
+     * {@inheritdoc}
      */
     public function unserialize($input, $class)
     {
