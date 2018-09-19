@@ -6,27 +6,65 @@ use Serializer\Definition\Callback;
 use Serializer\Definition\Property;
 use Serializer\Definition\Type;
 use Serializer\Format\FormatFactory;
+use Serializer\Format\FormatInterface;
 use Serializer\Format\UnknownFormatException;
 use Serializer\Parser\Parser;
 
 class SerializerBuilder
 {
     /**
-     * @param Config $config
-     * @return SerializerInterface
+     * @var FormatInterface
+     */
+    private $format;
+
+    /**
+     * @var array
+     */
+    private $definitions = [
+        Property::class,
+        Type::class,
+        Callback::class,
+    ];
+
+    /**
+     * @return SerializerBuilder
      * @throws UnknownFormatException
      */
-    public static function build(Config $config)
+    public static function instance()
     {
-        $format = FormatFactory::get($config->getFormat());
+        return new static();
+    }
 
-        $definitions = [
-            Property::class,
-            Type::class,
-            Callback::class,
-        ];
-        $parser = new Parser($definitions);
+    /**
+     * @param string $format
+     * @return $this
+     * @throws UnknownFormatException
+     */
+    public function setFormat($format)
+    {
+        $this->format = FormatFactory::get($format);
 
-        return new Serializer($format, $parser);
+        return $this;
+    }
+
+    /**
+     * @param array $definitions
+     * @return $this
+     */
+    public function setDefinitions(array $definitions)
+    {
+        $this->definitions = array_merge($this->definitions, $definitions);
+
+        return $this;
+    }
+
+    /**
+     * @return SerializerInterface
+     */
+    public function build()
+    {
+        $parser = new Parser($this->definitions);
+
+        return new Serializer($this->format, $parser);
     }
 }

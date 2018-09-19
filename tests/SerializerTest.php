@@ -7,6 +7,7 @@ use Serializer\Config;
 use Serializer\Format\UnknownFormatException;
 use Serializer\SerializerBuilder;
 use Serializer\SerializerException;
+use Serializer\SerializerInterface;
 use Serializer\Tests\Response\Condition;
 use Serializer\Tests\Response\Current;
 use Serializer\Tests\Response\CurrentWeather;
@@ -17,9 +18,10 @@ class SerializerTest extends TestCase
 {
     public function testUnserialize()
     {
-        $config = new Config();
-        $config->setFormat('json');
-        $serializer = SerializerBuilder::build($config);
+        $serializer = SerializerBuilder::instance()
+            ->setFormat('json')
+            ->setDefinitions([])
+            ->build();
 
         $input = '{
             "location": {
@@ -115,11 +117,8 @@ class SerializerTest extends TestCase
 
     public function testUnknownFormat()
     {
-        $config = new Config();
-        $config->setFormat('unknown');
-
         try {
-            SerializerBuilder::build($config);
+            SerializerBuilder::instance()->setFormat('unknown')->build();
             $this->fail('No exception was thrown');
         } catch (\Exception $e) {
             $this->assertInstanceOf(SerializerException::class, $e);
