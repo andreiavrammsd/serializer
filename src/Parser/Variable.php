@@ -1,6 +1,6 @@
 <?php
 
-namespace Serializer;
+namespace Serializer\Parser;
 
 class Variable
 {

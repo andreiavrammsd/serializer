@@ -3,25 +3,25 @@
 namespace Serializer\Definition;
 
 use Serializer\Collection;
-use Serializer\Model;
-use Serializer\Serializer;
-use Serializer\Variable;
+use Serializer\Parser\Model;
+use Serializer\Parser\ParserInterface;
+use Serializer\Parser\Variable;
 
 class Type implements DefinitionInterface
 {
     const ITEM_SET_PATTERN = '#(array|collection)\[([a-z0-9_\\\]+)\]#i';
 
     /**
-     * @var Serializer
+     * @var ParserInterface
      */
-    private $serializer;
+    private $parser;
 
     /**
-     * @param Serializer $serializer
+     * @param ParserInterface $parser
      */
-    public function __construct($serializer)
+    public function __construct(ParserInterface $parser)
     {
-        $this->serializer = $serializer;
+        $this->parser = $parser;
     }
 
     /**
@@ -99,7 +99,7 @@ class Type implements DefinitionInterface
 
         $out = [];
         foreach ($value as $v) {
-            $out [] = $this->serializer->parse($v, $model->getClass());
+            $out [] = $this->parser->parse($v, $model->getClass());
         }
 
         return new Collection($out);
@@ -148,7 +148,7 @@ class Type implements DefinitionInterface
             return $result;
         }
 
-        return $this->serializer->parse($value, $type);
+        return $this->parser->parse($value, $type);
     }
 
     /**
@@ -160,7 +160,7 @@ class Type implements DefinitionInterface
     {
         $result = [];
         foreach ($value as $v) {
-            $result [] = $this->serializer->parse($v, $model->getClass());
+            $result [] = $this->parser->parse($v, $model->getClass());
         }
 
         return $result;
@@ -176,7 +176,7 @@ class Type implements DefinitionInterface
     {
         $out = [];
         foreach ($value as $d) {
-            $out [] = new $class($this->serializer->parse($d, $model->getClass()));
+            $out [] = new $class($this->parser->parse($d, $model->getClass()));
         }
 
         return new Collection($out);

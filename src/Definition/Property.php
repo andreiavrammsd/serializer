@@ -2,8 +2,8 @@
 
 namespace Serializer\Definition;
 
-use Serializer\Model;
-use Serializer\Variable;
+use Serializer\Parser\Model;
+use Serializer\Parser\Variable;
 
 class Property implements DefinitionInterface
 {
