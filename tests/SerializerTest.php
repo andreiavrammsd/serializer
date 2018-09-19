@@ -76,7 +76,7 @@ class SerializerTest extends TestCase
         $this->assertSame('Europe/London', $location->timezone);
         $this->assertSame(1531989523, $location->getLocaltimeEpoch());
         $this->assertEquals(\DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
-        $this->assertEquals(null, $location->localtime2);
+        $this->assertNull($location->localtime2);
         $this->assertEquals([1, 'a'], $location->values);
 
         /** @var Current $current */
@@ -117,7 +117,7 @@ class SerializerTest extends TestCase
     {
         $config = new Config();
         $config->setFormat('unknown');
-        
+
         try {
             SerializerBuilder::build($config);
             $this->fail('No exception was thrown');

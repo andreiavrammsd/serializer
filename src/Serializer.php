@@ -38,7 +38,7 @@ class Serializer
     /**
      * @param string $input
      * @param string $class
-     * @return object
+     * @return mixed
      */
     public function unserialize($input, $class)
     {
@@ -50,7 +50,7 @@ class Serializer
     /**
      * @param mixed $data
      * @param string $class
-     * @return object
+     * @return mixed
      */
     public function parse($data, $class)
     {
@@ -68,7 +68,7 @@ class Serializer
             foreach ($this->definitionHandlers as $handler) {
                 $name = $this->getHandlerName($handler);
 
-                if (!isset($definitions[$name])) {
+                if (!array_key_exists($name, $definitions)) {
                     continue;
                 }
 
@@ -80,17 +80,6 @@ class Serializer
         }
 
         return $object;
-    }
-
-    /**
-     * @param DefinitionInterface $handler
-     * @return string
-     */
-    private function getHandlerName($handler)
-    {
-        $className = get_class($handler);
-
-        return substr($className, strrpos($className, '\\') + 1);
     }
 
     /**
@@ -117,7 +106,22 @@ class Serializer
     private function getDefaultValue($property, array $data)
     {
         $name = $property->getName();
+        
+        if (array_key_exists($name, $data)) {
+            return $data[$name];
+        }
 
-        return array_key_exists($name, $data) ? $data[$name] : null;
+        return null;
+    }
+
+    /**
+     * @param DefinitionInterface $handler
+     * @return string
+     */
+    private function getHandlerName($handler)
+    {
+        $className = get_class($handler);
+
+        return substr($className, strrpos($className, '\\') + 1);
     }
 }

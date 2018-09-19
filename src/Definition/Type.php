@@ -48,7 +48,6 @@ class Type implements DefinitionInterface
         $typeArgs = $definition['args'];
 
         $value = $variable->getValue();
-        $result = null;
 
         switch ($type) {
             case 'int':
@@ -72,9 +71,7 @@ class Type implements DefinitionInterface
                 break;
 
             case 'collection':
-                if (is_array($value)) {
-                    $result = $this->getCollection($value, $model);
-                }
+                $result = $this->getCollection($value, $model);
                 break;
 
             case 'DateTime':
@@ -82,20 +79,7 @@ class Type implements DefinitionInterface
                 break;
 
             default:
-                preg_match(self::ITEM_SET_PATTERN, $type, $match);
-
-                if ($match) {
-                    if ($match[1] == 'array' && is_array($value)) {
-                        $result = $this->getArray($value, $model);
-                    }
-
-                    if ($match[1] == 'collection' && is_array($value)) {
-                        $objectClass = $match[2];
-                        $result = $this->getCollectionOfType($value, $model, $objectClass);
-                    }
-                } else {
-                    $result = $this->serializer->parse($value, $type);
-                }
+                $result = $this->getDataSet($value, $model, $type);
                 break;
         }
 
@@ -105,16 +89,20 @@ class Type implements DefinitionInterface
     /**
      * @param array $value
      * @param Model $model
-     * @return Collection
+     * @return null|Collection
      */
-    private function getCollection(array $value, Model $model)
+    private function getCollection($value, Model $model)
     {
+        if (!is_array($value)) {
+            return null;
+        }
+
         $out = [];
         foreach ($value as $v) {
             $out [] = $this->serializer->parse($v, $model->getClass());
         }
 
-        return new Collection($out); // needs recursion? check level n
+        return new Collection($out);
     }
 
     /**
@@ -135,6 +123,35 @@ class Type implements DefinitionInterface
     }
 
     /**
+     * @param mixed $value
+     * @param Model $model
+     * @param string $type
+     * @return array|mixed|null|Collection
+     */
+    private function getDataSet($value, Model $model, $type)
+    {
+        preg_match(self::ITEM_SET_PATTERN, $type, $match);
+        if ($match) {
+            $result = null;
+
+            if (is_array($value)) {
+                if ($match[1] === 'array') {
+                    $result = $this->getArray($value, $model);
+                }
+
+                if ($match[1] === 'collection') {
+                    $objectClass = $match[2];
+                    $result = $this->getCollectionOfClass($value, $model, $objectClass);
+                }
+            }
+
+            return $result;
+        }
+
+        return $this->serializer->parse($value, $type);
+    }
+
+    /**
      * @param array $value
      * @param Model $model
      * @return array
@@ -152,14 +169,14 @@ class Type implements DefinitionInterface
     /**
      * @param array $value
      * @param Model $model
-     * @param string $objectClass
+     * @param string $class
      * @return Collection
      */
-    private function getCollectionOfType(array $value, Model $model, $objectClass)
+    private function getCollectionOfClass(array $value, Model $model, $class)
     {
         $out = [];
         foreach ($value as $d) {
-            $out [] = new $objectClass($this->serializer->parse($d, $model->getClass()));
+            $out [] = new $class($this->serializer->parse($d, $model->getClass()));
         }
 
         return new Collection($out);

@@ -8,8 +8,11 @@ Very basic serializer/unserializer.
 
 * Requirements: Docker, Make
 
-* Setup: make build, make run, composer install
+* Setup dev container:
+    * Build container: make build
+    * Run container: make run
+    * Install dependencies inside container: composer install
 
-* Run: make run
+* Run container: make run
 
-* Test/QA (inside container): make, make test
+* Test/QA (inside container): make, make test, make qa
