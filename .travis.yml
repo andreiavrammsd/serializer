@@ -5,6 +5,7 @@ services:
 
 before_install:
 - docker pull andreiavrammsd/serializer
+- docker run -ti -v $PWD:/src andreiavrammsd/serializer composer install
 
 script:
 - make
