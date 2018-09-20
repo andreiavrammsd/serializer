@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-- make build
+- docker pull andreiavrammsd/serializer
 
 script:
 - make
