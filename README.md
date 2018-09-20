@@ -21,12 +21,6 @@ See [tests](./tests/SerializerTest.php).
 ## Development
 
 * Requirements: Docker, Make
-
-* Setup dev container:
-    * Build container: make build
-    * Run container: make run
-    * Install dependencies inside container: composer install
-
-* Run container: make run
-
-* Test/QA (inside container): make, make test, make qa
+* Build dev container: make build
+* Test/QA: make, make test, make qa
+* Work inside container: make run
