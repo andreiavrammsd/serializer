@@ -18,7 +18,7 @@ class Parser implements ParserInterface
      */
     public function registerDefinitionHandler(DefinitionInterface $handler)
     {
-        $this->definitionHandlers []= $handler;
+        $this->definitionHandlers [$this->getHandlerName($handler)] = $handler;
     }
 
     /**
@@ -37,9 +37,7 @@ class Parser implements ParserInterface
             $variable->setValue($this->getDefaultValue($property, $model->getData()));
 
             /** @var DefinitionInterface $handler */
-            foreach ($this->definitionHandlers as $handler) {
-                $name = $this->getHandlerName($handler);
-
+            foreach ($this->definitionHandlers as $name => $handler) {
                 if (!array_key_exists($name, $definitions)) {
                     continue;
                 }
@@ -52,6 +50,17 @@ class Parser implements ParserInterface
         }
 
         return $object;
+    }
+
+    /**
+     * @param DefinitionInterface $handler
+     * @return string
+     */
+    private function getHandlerName($handler)
+    {
+        $className = get_class($handler);
+
+        return substr($className, strrpos($className, '\\') + 1);
     }
 
     /**
@@ -84,16 +93,5 @@ class Parser implements ParserInterface
         }
 
         return null;
-    }
-
-    /**
-     * @param DefinitionInterface $handler
-     * @return string
-     */
-    private function getHandlerName($handler)
-    {
-        $className = get_class($handler);
-
-        return substr($className, strrpos($className, '\\') + 1);
     }
 }
