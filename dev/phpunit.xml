@@ -14,12 +14,12 @@
         </logging>
         <filter>
                 <whitelist>
-                        <directory>/src/src/</directory>
+                        <directory>../src/</directory>
                 </whitelist>
         </filter>
         <testsuites>
                 <testsuite name="all">
-                        <directory>tests</directory>
+                        <directory>../tests</directory>
                 </testsuite>
         </testsuites>
 </phpunit>

@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 
-/src/vendor/phpstan/phpstan/bin/phpstan analyse --level 7 src
-/src/vendor/overtrue/phplint/bin/phplint -c dev/phplint.yml
-/src/vendor/squizlabs/php_codesniffer/bin/phpcs --standard=PSR2 src
-/src/vendor/squizlabs/php_codesniffer/bin/phpcbf --standard=PSR2 src
-/src/vendor/phpmd/phpmd/src/bin/phpmd src text dev/phpmd.xml
+VENDOR=/src/vendor
+
+${VENDOR}/phpunit/phpunit/phpunit -c dev/phpunit.xml
+${VENDOR}/phpstan/phpstan/bin/phpstan analyse --level 7 src
+${VENDOR}/overtrue/phplint/bin/phplint -c dev/phplint.yml
+${VENDOR}/squizlabs/php_codesniffer/bin/phpcs --standard=PSR2 src
+${VENDOR}/squizlabs/php_codesniffer/bin/phpcbf --standard=PSR2 src
+${VENDOR}/phpmd/phpmd/src/bin/phpmd src text dev/phpmd.xml

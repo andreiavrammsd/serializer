@@ -1,8 +1,8 @@
-.PHONY: qa build
+.PHONY: build
 
 IMAGE := andreiavrammsd/serializer
 
-all: qa test
+all: qa
 
 build:
 	docker build . -f dev/Dockerfile -t $(IMAGE)
@@ -13,9 +13,6 @@ push:
 
 run:
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) sh
-
-test:
-	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) ./dev/test.sh
 
 qa:
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) ./dev/qa.sh
