@@ -1,16 +1,14 @@
 {
     "name": "andreiavrammsd/serializer",
     "type": "library",
-    "description": "String to object",
-    "keywords": ["serializer"],
-    "homepage": "https://www.andreiavram.ro/",
+    "description": "JSON string to object.",
+    "keywords": ["json", "serializer"],
     "license": "MIT",
     "authors": [
         {
             "name": "Andrei Avram",
             "email": "avramandrei@ymail.com",
-            "homepage": "https://www.andreiavram.ro/",
-            "role": "Developer"
+            "homepage": "https://www.andreiavram.ro/"
         }
     ],
     "require": {
@@ -32,6 +30,5 @@
         "psr-4": {
             "Serializer\\Tests\\": "tests/"
         }
-    },
-    "version": "0.1-dev"
+    }
 }
