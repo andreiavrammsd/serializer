@@ -130,6 +130,10 @@ class Type implements DefinitionInterface
      */
     private function getDataSet($value, Model $model, $type)
     {
+        if ($value === null) {
+            return null;
+        }
+
         preg_match(self::ITEM_SET_PATTERN, $type, $match);
         if ($match) {
             $result = null;

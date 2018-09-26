@@ -24,7 +24,7 @@ class Parser implements ParserInterface
     /**
      * {@inheritdoc}
      */
-    public function parse($data, $class)
+    public function parse(array $data, $class)
     {
         $model = new Model($data, $class);
         $reflectionClass = new \ReflectionClass($class);

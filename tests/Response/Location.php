@@ -59,7 +59,19 @@ class Location
      * @Serializer\Type("array")
      */
     public $values;
+
+    /**
+     * @Serializer\Property("childLocation")
+     * @Serializer\Type("Serializer\Tests\Response\Location")
+     */
+    private $childLocation;
     
+    /**
+     * @Serializer\Property("other_Locations")
+     * @Serializer\Type("array[Serializer\Tests\Response\Location]")
+     */
+    public $otherLocations;
+
     public function getName()
     {
         return $this->name;
@@ -93,5 +105,10 @@ class Location
     public function getLocaltime()
     {
         return $this->localtime;
+    }
+
+    public function getChildLocation()
+    {
+        return $this->childLocation;
     }
 }

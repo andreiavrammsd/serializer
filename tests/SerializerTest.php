@@ -3,7 +3,6 @@
 namespace Serializer\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Serializer\Config;
 use Serializer\Format\UnknownFormatException;
 use Serializer\SerializerBuilder;
 use Serializer\SerializerException;
@@ -33,7 +32,30 @@ class SerializerTest extends TestCase
                 "localtime_epoch": 1531989523,
                 "localtime": "2018-07-19 9:38",
                 "localtime2": "2018-07-19 9:38",
-                "values": [1, "a"]
+                "values": [1, "a"],
+                "childLocation": {
+                    "name": "London West",
+                    "region": "West",
+                    "values": [1, "a"]
+                },
+                "other_Locations": [
+                    {
+                        "name": "London Center",
+                        "values": [2, "a", null, false, "", 0, -1],
+                        "other_Locations": [
+                            {
+                                "name": "A"
+                            },
+                            {
+                                "name": "B"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "London Center 2",
+                        "values": null
+                    }
+                ]
             },
             "current": {
                 "last_updated_epoch": 1531989006,
@@ -79,6 +101,23 @@ class SerializerTest extends TestCase
         $this->assertEquals(\DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
         $this->assertNull($location->localtime2);
         $this->assertEquals([1, 'a'], $location->values);
+
+        /** @var Location $childLocation */
+        $childLocation = $location->getChildLocation();
+        $this->assertSame('London West', $childLocation->getName());
+        $this->assertSame('West', $childLocation->getRegion());
+        $this->assertEquals([1, 'a'], $childLocation->values);
+
+        /** @var Location[] $otherLocations */
+        $otherLocations = $location->otherLocations;
+        $this->assertContainsOnlyInstancesOf(Location::class, $otherLocations);
+        $this->assertCount(2, $otherLocations);
+        $this->assertSame('London Center', $otherLocations[0]->getName());
+        $this->assertEquals([2, 'a', null, false, '', 0, -1], $otherLocations[0]->values);
+        $this->assertEquals('A', $otherLocations[0]->otherLocations[0]->getName());
+        $this->assertEquals('B', $otherLocations[0]->otherLocations[1]->getName());
+        $this->assertSame('London Center 2', $otherLocations[1]->getName());
+        $this->assertEquals([], $otherLocations[1]->values);
 
         /** @var Current $current */
         $current = $object->getCurrent();

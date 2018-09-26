@@ -12,9 +12,9 @@ interface ParserInterface
     public function registerDefinitionHandler(DefinitionInterface $handler);
 
     /**
-     * @param mixed $data
+     * @param array $data
      * @param string $class
      * @return mixed
      */
-    public function parse($data, $class);
+    public function parse(array $data, $class);
 }
