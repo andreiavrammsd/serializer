@@ -2,7 +2,7 @@
 
 namespace Serializer\Format;
 
-class JsonFormat implements FormatInterface
+final class JsonFormat implements FormatInterface
 {
     /**
      * {@inheritdoc}

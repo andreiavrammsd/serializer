@@ -10,7 +10,7 @@ use Serializer\Format\FormatInterface;
 use Serializer\Format\UnknownFormatException;
 use Serializer\Parser\Parser;
 
-class SerializerBuilder
+final class SerializerBuilder
 {
     /**
      * @var FormatInterface

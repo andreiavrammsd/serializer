@@ -2,7 +2,7 @@
 
 namespace Serializer\Format;
 
-class FormatFactory
+final class FormatFactory
 {
     /**
      * @param string $format
