@@ -129,15 +129,15 @@ class SerializerTest extends TestCase
         $this->assertSame('SUN', $condition->getText());
 
         $input = '{
-           "firstname":2,
+           "fname":2,
            "age":12,
            "friends":[
               {
-                 "firstname":"Doe",
+                 "fname":"Doe",
                  "age":12
               },
               {
-                 "firstname":"John",
+                 "fname":"John",
                  "age":2
               }
            ]
@@ -148,9 +148,38 @@ class SerializerTest extends TestCase
         $object = $serializer->unserialize($input, $class);
         $this->assertInstanceOf($class, $object);
 
+        $this->assertSame('2', $object->firstName);
         $this->assertSame(12, $object->getAge());
         $this->assertContainsOnlyInstancesOf($class, $object->friends);
         $this->assertCount(2, $object->friends);
+
+        /** @var User[] $friends */
+        $friends = $object->friends;
+        $this->assertSame('Doe', $friends[0]->firstName);
+        $this->assertSame(12, $friends[0]->getAge());
+        $this->assertSame('John', $friends[1]->firstName);
+        $this->assertSame(2, $friends[1]->getAge());
+
+        /** @var User[] $friends2 */
+        $friends2 = $object->friends2;
+        $this->assertSame('Doe', $friends2[0]->firstName);
+        $this->assertSame(12, $friends2[0]->getAge());
+        $this->assertSame('John', $friends2[1]->firstName);
+        $this->assertSame(2, $friends2[1]->getAge());
+
+        /** @var User[] $friends2 */
+        $friends3 = $object->friends3;
+        $this->assertSame('Doe', $friends3[0]->firstName);
+        $this->assertSame(12, $friends3[0]->getAge());
+        $this->assertSame('John', $friends3[1]->firstName);
+        $this->assertSame(2, $friends3[1]->getAge());
+
+        unset($friends3[1]);
+        $this->assertFalse(array_key_exists(1, $friends3));
+
+        $friends3[1] = $friends3[0];
+        $this->assertSame($friends3[1], $friends3[0]);
+        $this->assertFalse(empty($friends3[1]));
     }
 
     public function testUnknownFormat()

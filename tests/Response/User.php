@@ -5,13 +5,13 @@ namespace Serializer\Tests\Response;
 class User
 {
     /**
-     * @Serializer\Property("firstname")
+     * @Serializer\Property("fname")
      * @Serializer\Type("string")
      */
     public $firstName;
 
     /**
-     * @_Serializer\Property("age")
+     * @Serializer\Property("age")
      * @Serializer\Type("int")
      */
     private $age;
@@ -22,13 +22,11 @@ class User
      */
     public $friends;
 
-
     /**
      * @Serializer\Property("friends")
      * @Serializer\Type("collection")
      */
     public $friends2;
-
 
     /**
      * @Serializer\Property("friends")

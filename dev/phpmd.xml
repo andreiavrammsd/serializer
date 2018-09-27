@@ -2,12 +2,34 @@
 <ruleset name="Rule Set"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
-    <rule ref="rulesets/design.xml" />
-    <rule ref="rulesets/controversial.xml" />
-    <rule ref="rulesets/unusedcode.xml" />
+    <rule ref="rulesets/design.xml"/>
+    <rule ref="rulesets/controversial.xml"/>
+    <rule ref="rulesets/unusedcode.xml"/>
     <rule ref="rulesets/cleancode.xml">
-        <exclude name="StaticAccess" />
+        <exclude name="StaticAccess"/>
     </rule>
-    <rule ref="rulesets/codesize.xml" />
-    <rule ref="rulesets/naming.xml" />
+    <rule ref="rulesets/codesize.xml">
+        <exclude name="TooManyPublicMethods"/>
+    </rule>
+    <rule ref="rulesets/naming.xml"/>
+
+    <rule name="TooManyPublicMethods"
+          since="0.1"
+          class="PHPMD\Rule\Design\TooManyPublicMethods"
+          message="The {0} {1} has {2} public methods. Consider refactoring {1} to keep number of public methods under {3}."
+          externalInfoUrl="https://phpmd.org/rules/codesize.html#toomanypublicmethods">
+        <description>
+            <![CDATA[
+A class with too many public methods is probably a good suspect for refactoring, in
+order to reduce its complexity and find a way to have more fine grained objects.
+By default it ignores methods starting with 'get' or 'set'.
+            ]]>
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="maxmethods" description="The method count reporting threshold" value="10"/>
+            <property name="ignorepattern" description="Ignore methods matching this regex"
+                      value="(^(set|get|offset))i"/>
+        </properties>
+    </rule>
 </ruleset>

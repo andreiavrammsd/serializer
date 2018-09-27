@@ -2,7 +2,7 @@
 
 namespace Serializer;
 
-class Collection implements \Iterator, \Countable
+class Collection implements \Iterator, \Countable, \ArrayAccess
 {
     /**
      * @var int
@@ -51,7 +51,7 @@ class Collection implements \Iterator, \Countable
      */
     public function next()
     {
-        ++$this->index;
+        $this->index++;
     }
 
     /**
@@ -68,5 +68,37 @@ class Collection implements \Iterator, \Countable
     public function count()
     {
         return count($this->data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->data[$offset];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->data[$offset] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
     }
 }

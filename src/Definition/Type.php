@@ -79,7 +79,7 @@ class Type implements DefinitionInterface
                 break;
 
             default:
-                $result = $this->getDataSet($value, $model, $type);
+                $result = $this->getDataSet($value, $type);
                 break;
         }
 
@@ -124,11 +124,10 @@ class Type implements DefinitionInterface
 
     /**
      * @param mixed $value
-     * @param Model $model
      * @param string $type
      * @return array|mixed|null|Collection
      */
-    private function getDataSet($value, Model $model, $type)
+    private function getDataSet($value, $type)
     {
         if ($value === null) {
             return null;
@@ -139,13 +138,16 @@ class Type implements DefinitionInterface
             $result = null;
 
             if (is_array($value)) {
-                if ($match[1] === 'array') {
-                    $result = $this->getArray($value, $model);
-                }
+                $type = $match[1];
+                $class = $match[2];
 
-                if ($match[1] === 'collection') {
-                    $objectClass = $match[2];
-                    $result = $this->getCollectionOfClass($value, $model, $objectClass);
+                switch ($type) {
+                    case 'array':
+                        $result = $this->getArray($value, $class);
+                        break;
+                    case 'collection':
+                        $result = new Collection($this->getArray($value, $class));
+                        break;
                 }
             }
 
@@ -157,32 +159,16 @@ class Type implements DefinitionInterface
 
     /**
      * @param array $value
-     * @param Model $model
+     * @param string $class
      * @return array
      */
-    private function getArray($value, $model)
+    private function getArray($value, $class)
     {
         $result = [];
         foreach ($value as $v) {
-            $result [] = $this->parser->parse($v, $model->getClass());
+            $result [] = $this->parser->parse($v, $class);
         }
 
         return $result;
-    }
-
-    /**
-     * @param array $value
-     * @param Model $model
-     * @param string $class
-     * @return Collection
-     */
-    private function getCollectionOfClass(array $value, Model $model, $class)
-    {
-        $out = [];
-        foreach ($value as $d) {
-            $out [] = new $class($this->parser->parse($d, $model->getClass()));
-        }
-
-        return new Collection($out);
     }
 }
