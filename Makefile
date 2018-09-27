@@ -6,13 +6,19 @@ all: qa
 
 build:
 	docker build . -f dev/Dockerfile -t $(IMAGE)
-	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) composer install
 
 push:
 	docker push $(IMAGE)
 
-run:
-	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) sh
+install:
+	docker pull $(IMAGE)
+	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) composer install
 
 qa:
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) ./dev/qa.sh
+
+run:
+	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) sh
+
+clean:
+	docker rmi $(IMAGE)

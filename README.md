@@ -19,8 +19,8 @@ $object = $serializer->unserialize($input, $class);
 See [tests](./tests/SerializerTest.php).
 
 ## Development
-
 * Requirements: Docker, Make
-* Build dev container: make build
-* Test/QA: make, make test, make qa
-* Work inside container: make run
+* Install dev container: make install
+* Run QA tools: make
+* Work inside dev container: make run
+* Remove docker image: make clean

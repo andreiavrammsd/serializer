@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-VENDOR=/src/vendor
+VENDOR=/qa/vendor
 
 ${VENDOR}/phpunit/phpunit/phpunit -c dev/phpunit.xml
 ${VENDOR}/phpstan/phpstan/bin/phpstan analyse --level 7 src

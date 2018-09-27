@@ -8,7 +8,8 @@
         stopOnFailure="true"
         stopOnIncomplete="true"
         stopOnSkipped="true"
-        stopOnRisky="true">
+        stopOnRisky="true"
+        bootstrap="../vendor/autoload.php">
         <logging>
                 <log type="coverage-html" target="../build/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="70" highLowerBound="90" />
         </logging>
