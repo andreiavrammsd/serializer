@@ -26,7 +26,6 @@ class Parser implements ParserInterface
      */
     public function parse(array $data, $class)
     {
-        $model = new Model($data, $class);
         $reflectionClass = new \ReflectionClass($class);
         $object = $reflectionClass->newInstanceWithoutConstructor();
 
@@ -34,7 +33,7 @@ class Parser implements ParserInterface
             $definitions = $this->getDefinitions((string)$property->getDocComment());
 
             $variable = new Variable($property, $object);
-            $variable->setValue($this->getDefaultValue($property, $model->getData()));
+            $variable->setValue($this->getDefaultValue($property, $data));
 
             /** @var DefinitionInterface $handler */
             foreach ($this->definitionHandlers as $name => $handler) {
@@ -44,7 +43,7 @@ class Parser implements ParserInterface
 
                 foreach ($definitions[$name] as $d) {
                     $definition = $handler->getDefinition($d);
-                    $handler->setVariableValue($definition, $variable, $model);
+                    $handler->setVariableValue($definition, $variable, $data);
                 }
             }
         }
@@ -84,7 +83,7 @@ class Parser implements ParserInterface
      * @param array $data
      * @return mixed
      */
-    private function getDefaultValue($property, array $data)
+    private function getDefaultValue(\ReflectionProperty $property, array $data)
     {
         $name = $property->getName();
 

@@ -2,7 +2,6 @@
 
 namespace Serializer\Definition;
 
-use Serializer\Parser\Model;
 use Serializer\Parser\Variable;
 
 interface DefinitionInterface
@@ -18,7 +17,7 @@ interface DefinitionInterface
     /**
      * @param mixed $definition
      * @param Variable $variable
-     * @param Model $model
+     * @param array $data
      */
-    public function setVariableValue($definition, Variable $variable, Model $model);
+    public function setVariableValue($definition, Variable $variable, array $data);
 }

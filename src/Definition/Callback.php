@@ -2,7 +2,6 @@
 
 namespace Serializer\Definition;
 
-use Serializer\Parser\Model;
 use Serializer\Parser\Variable;
 
 class Callback implements DefinitionInterface
@@ -27,7 +26,7 @@ class Callback implements DefinitionInterface
     /**
      * {@inheritdoc}
      */
-    public function setVariableValue($definition, Variable $variable, Model $model)
+    public function setVariableValue($definition, Variable $variable, array $data)
     {
         array_unshift($definition['args'], $variable->getValue());
         $variable->setValue(call_user_func_array($definition['name'], $definition['args']));

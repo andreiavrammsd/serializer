@@ -3,7 +3,6 @@
 namespace Serializer\Definition;
 
 use Serializer\Collection;
-use Serializer\Parser\Model;
 use Serializer\Parser\ParserInterface;
 use Serializer\Parser\Variable;
 
@@ -42,7 +41,7 @@ class Type implements DefinitionInterface
     /**
      * {@inheritdoc}
      */
-    public function setVariableValue($definition, Variable $variable, Model $model)
+    public function setVariableValue($definition, Variable $variable, array $data)
     {
         $type = $definition['name'];
         $typeArgs = $definition['args'];

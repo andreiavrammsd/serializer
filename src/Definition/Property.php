@@ -2,7 +2,6 @@
 
 namespace Serializer\Definition;
 
-use Serializer\Parser\Model;
 use Serializer\Parser\Variable;
 
 class Property implements DefinitionInterface
@@ -18,9 +17,8 @@ class Property implements DefinitionInterface
     /**
      * {@inheritdoc}
      */
-    public function setVariableValue($definition, Variable $variable, Model $model)
+    public function setVariableValue($definition, Variable $variable, array $data)
     {
-        $data = $model->getData();
         if (array_key_exists($definition, $data)) {
             $variable->setValue($data[$definition]);
         }
