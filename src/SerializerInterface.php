@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer;
+
+use Serializer\Format\InvalidInputException;
 
 interface SerializerInterface
 {
@@ -10,6 +12,7 @@ interface SerializerInterface
      * @param string $input
      * @param string $class
      * @return mixed
+     * @throws InvalidInputException
      */
-    public function unserialize($input, $class);
+    public function unserialize(string $input, string $class);
 }

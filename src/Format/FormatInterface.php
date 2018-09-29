@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer\Format;
 
@@ -9,5 +9,5 @@ interface FormatInterface
      * @return array
      * @throws InvalidInputException
      */
-    public function decode($string);
+    public function decode(string $string);
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer\Parser;
 
@@ -22,9 +22,20 @@ class Parser implements ParserInterface
     }
 
     /**
+     * @param DefinitionInterface $handler
+     * @return string
+     */
+    private function getHandlerName(DefinitionInterface $handler)
+    {
+        $className = get_class($handler);
+
+        return substr($className, strrpos($className, '\\') + 1);
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function parse(array $data, $class)
+    public function parse(array $data, string $class)
     {
         $reflectionClass = new \ReflectionClass($class);
         $object = $reflectionClass->newInstanceWithoutConstructor();
@@ -52,21 +63,10 @@ class Parser implements ParserInterface
     }
 
     /**
-     * @param DefinitionInterface $handler
-     * @return string
-     */
-    private function getHandlerName($handler)
-    {
-        $className = get_class($handler);
-
-        return substr($className, strrpos($className, '\\') + 1);
-    }
-
-    /**
      * @param string $comment
      * @return array
      */
-    private function getDefinitions($comment)
+    private function getDefinitions(string $comment) : array
     {
         $definitions = [];
         preg_match_all(self::DEFINITION_PATTERN, $comment, $matches);

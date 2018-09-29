@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer\Format;
 
@@ -9,7 +9,7 @@ final class FormatFactory
      * @return FormatInterface
      * @throws UnknownFormatException
      */
-    public static function get($format)
+    public static function get(string $format)
     {
         switch ($format) {
             case 'json':

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer;
 
@@ -30,7 +30,7 @@ final class SerializerBuilder
      * @return SerializerBuilder
      * @throws UnknownFormatException
      */
-    public static function instance()
+    public static function instance() : SerializerBuilder
     {
         return new static();
     }
@@ -40,7 +40,7 @@ final class SerializerBuilder
      * @return $this
      * @throws UnknownFormatException
      */
-    public function setFormat($format)
+    public function setFormat(string $format)
     {
         $this->format = FormatFactory::get($format);
 
@@ -49,9 +49,9 @@ final class SerializerBuilder
 
     /**
      * @param array $definitions
-     * @return $this
+     * @return SerializerBuilder
      */
-    public function setDefinitions(array $definitions)
+    public function setDefinitions(array $definitions) : SerializerBuilder
     {
         $this->definitions = array_merge($this->definitions, $definitions);
 
@@ -61,7 +61,7 @@ final class SerializerBuilder
     /**
      * @return SerializerInterface
      */
-    public function build()
+    public function build() : SerializerInterface
     {
         $parser = new Parser();
         foreach ($this->definitions as $class) {

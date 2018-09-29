@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer\Parser;
 
@@ -16,5 +16,5 @@ interface ParserInterface
      * @param string $class
      * @return mixed
      */
-    public function parse(array $data, $class);
+    public function parse(array $data, string $class);
 }

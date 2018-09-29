@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer;
 
@@ -30,7 +30,7 @@ class Serializer implements SerializerInterface
     /**
      * {@inheritdoc}
      */
-    public function unserialize($input, $class)
+    public function unserialize(string $input, string $class)
     {
         $data = $this->format->decode($input);
 

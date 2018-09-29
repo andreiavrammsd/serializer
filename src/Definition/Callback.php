@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer\Definition;
 
@@ -15,7 +15,7 @@ class Callback implements DefinitionInterface
     {
         $matches = preg_match_all(Type::ARGUMENTS_PATTERN, $data, $args);
         $args = $matches !== false ? $args[1] : [];
-        $name = $this->getName(array_shift($args));
+        $name = $this->getCallable(array_shift($args));
 
         return [
             'name' => $name,
@@ -24,19 +24,10 @@ class Callback implements DefinitionInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setVariableValue($definition, Variable $variable, array $data)
-    {
-        array_unshift($definition['args'], $variable->getValue());
-        $variable->setValue(call_user_func_array($definition['name'], $definition['args']));
-    }
-
-    /**
      * @param string $callback
      * @return array|string
      */
-    private function getName($callback)
+    private function getCallable(string $callback)
     {
         $match = preg_match(self::CLASS_CALLBACK_PATTERN, $callback, $args);
         if (!$match) {
@@ -50,5 +41,14 @@ class Callback implements DefinitionInterface
             new $class,
             $method,
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVariableValue($definition, Variable $variable, array $data)
+    {
+        array_unshift($definition['args'], $variable->getValue());
+        $variable->setValue(call_user_func_array($definition['name'], $definition['args']));
     }
 }

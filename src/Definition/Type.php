@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Serializer\Definition;
 
@@ -88,14 +88,18 @@ class Type implements DefinitionInterface
     }
 
     /**
-     * @param mixed $value
-     * @param array $typeArgs
+     * @param mixed $timestamp
+     * @param array $formats
      * @return \DateTime|null
      */
-    private function getDateTime($value, array $typeArgs)
+    private function getDateTime($timestamp, array $formats)
     {
-        foreach ($typeArgs as $format) {
-            $dateTime = \DateTime::createFromFormat($format, $value);
+        if (!is_string($timestamp)) {
+            return null;
+        }
+
+        foreach ($formats as $format) {
+            $dateTime = \DateTime::createFromFormat($format, $timestamp);
             if (false !== $dateTime) {
                 return $dateTime;
             }

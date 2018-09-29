@@ -7,7 +7,7 @@ final class JsonFormat implements FormatInterface
     /**
      * {@inheritdoc}
      */
-    public function decode($string)
+    public function decode(string $string)
     {
         $result = json_decode($string, true);
 
