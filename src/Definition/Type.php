@@ -51,23 +51,12 @@ class Type implements DefinitionInterface
 
         switch ($type) {
             case 'int':
-                $result = (int)$value;
-                break;
-
             case 'float':
-                $result = (float)$value;
-                break;
-
             case 'string':
-                $result = (string)$value;
-                break;
-
             case 'bool':
-                $result = (bool)$value;
-                break;
-
             case 'array':
-                $result = (array)$value;
+                settype($value, $type);
+                $result = $value;
                 break;
 
             case 'collection':
