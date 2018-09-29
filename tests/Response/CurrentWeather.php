@@ -16,7 +16,6 @@ class CurrentWeather
      */
     private $current;
 
-
     public function getLocation()
     {
         return $this->location;

@@ -42,8 +42,8 @@ class CollectionTest extends TestCase
             ],
             [
                 [
-                    "a",
-                    "b",
+                    'a',
+                    'b',
                 ]
             ],
         ];

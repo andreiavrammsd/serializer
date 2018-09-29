@@ -11,12 +11,6 @@ class Current
     private $lastUpdated;
 
     /**
-     * @Serializer\Property("last_updated")
-     * @Serializer\Type("DateTime","Y-m-d H:i", "Y-m-d", " ")
-     */
-    private $lastUpdated2;
-
-    /**
      * @Serializer\Property("condition")
      * @Serializer\Type("Serializer\Tests\Response\Condition")
      */
@@ -28,17 +22,17 @@ class Current
      */
     private $day;
 
-    function getLastUpdated()
+    public function getLastUpdated()
     {
         return $this->lastUpdated;
     }
 
-    function getCondition()
+    public function getCondition()
     {
         return $this->condition;
     }
 
-    function isDay()
+    public function isDay()
     {
         return $this->day;
     }
