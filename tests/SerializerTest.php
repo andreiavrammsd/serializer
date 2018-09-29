@@ -136,7 +136,7 @@ class SerializerTest extends TestCase
                  "age":12
               },
               {
-                 "fname":"John",
+                 "fname":"john JOHNNY",
                  "age":2
               }
            ]
@@ -156,21 +156,21 @@ class SerializerTest extends TestCase
         $friends = $object->friends;
         $this->assertSame('Doe', $friends[0]->firstName);
         $this->assertSame(12, $friends[0]->getAge());
-        $this->assertSame('John', $friends[1]->firstName);
+        $this->assertSame('John Johnny', $friends[1]->firstName);
         $this->assertSame(2, $friends[1]->getAge());
 
         /** @var User[] $friends2 */
         $friends2 = $object->friends2;
         $this->assertSame('Doe', $friends2[0]->firstName);
         $this->assertSame(12, $friends2[0]->getAge());
-        $this->assertSame('John', $friends2[1]->firstName);
+        $this->assertSame('John Johnny', $friends2[1]->firstName);
         $this->assertSame(2, $friends2[1]->getAge());
 
         /** @var User[] $friends2 */
         $friends3 = $object->friends3;
         $this->assertSame('Doe', $friends3[0]->firstName);
         $this->assertSame(12, $friends3[0]->getAge());
-        $this->assertSame('John', $friends3[1]->firstName);
+        $this->assertSame('John Johnny', $friends3[1]->firstName);
         $this->assertSame(2, $friends3[1]->getAge());
 
         unset($friends3[1]);
