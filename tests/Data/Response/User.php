@@ -19,21 +19,21 @@ class User
 
     /**
      * @Serializer\Property("friends")
-     * @Serializer\Type("collection")
-     */
-    public $friends2;
-
-    /**
-     * @Serializer\Property("friends")
      * @Serializer\Type("collection[Serializer\Tests\Data\Response\User]")
      */
-    public $friends3;
+    public $friends2;
 
     /**
      * @Serializer\Property("age")
      * @Serializer\Type("int")
      */
     private $age;
+
+    /**
+     * @Serializer\Property("points")
+     * @Serializer\Type("collection")
+     */
+    public $points;
 
     public function getAge()
     {

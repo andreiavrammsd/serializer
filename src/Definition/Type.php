@@ -60,7 +60,7 @@ class Type implements DefinitionInterface
                 break;
 
             case 'collection':
-                $result = $this->getCollection($value, $model);
+                $result = $this->getCollection($value);
                 break;
 
             case 'DateTime':
@@ -77,21 +77,15 @@ class Type implements DefinitionInterface
 
     /**
      * @param array $value
-     * @param Model $model
      * @return null|Collection
      */
-    private function getCollection($value, Model $model)
+    private function getCollection($value)
     {
         if (!is_array($value)) {
             return null;
         }
 
-        $out = [];
-        foreach ($value as $v) {
-            $out [] = $this->parser->parse($v, $model->getClass());
-        }
-
-        return new Collection($out);
+        return new Collection($value);
     }
 
     /**

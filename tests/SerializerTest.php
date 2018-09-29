@@ -3,6 +3,7 @@
 namespace Serializer\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Serializer\Collection;
 use Serializer\SerializerBuilder;
 use Serializer\Tests\Data\Response\Condition;
 use Serializer\Tests\Data\Response\Current;
@@ -128,6 +129,7 @@ class SerializerTest extends TestCase
         $input = '{
            "fname":2,
            "age":12,
+           "points": [1, null, false, " ", "a", [1, 2, "3"]],
            "friends":[
               {
                  "fname":"Doe",
@@ -147,6 +149,7 @@ class SerializerTest extends TestCase
 
         $this->assertSame('2', $object->firstName);
         $this->assertSame(12, $object->getAge());
+        $this->assertEquals(new Collection([1, null, false, ' ', 'a', [1, 2, '3'],]), $object->points);
         $this->assertContainsOnlyInstancesOf($class, $object->friends);
         $this->assertCount(2, $object->friends);
 
@@ -164,18 +167,11 @@ class SerializerTest extends TestCase
         $this->assertSame('John Johnny', $friends2[1]->firstName);
         $this->assertSame(2, $friends2[1]->getAge());
 
-        /** @var User[] $friends2 */
-        $friends3 = $object->friends3;
-        $this->assertSame('Doe', $friends3[0]->firstName);
-        $this->assertSame(12, $friends3[0]->getAge());
-        $this->assertSame('John Johnny', $friends3[1]->firstName);
-        $this->assertSame(2, $friends3[1]->getAge());
+        unset($friends2[1]);
+        $this->assertFalse(array_key_exists(1, $friends2));
 
-        unset($friends3[1]);
-        $this->assertFalse(array_key_exists(1, $friends3));
-
-        $friends3[1] = $friends3[0];
-        $this->assertSame($friends3[1], $friends3[0]);
-        $this->assertFalse(empty($friends3[1]));
+        $friends2[1] = $friends2[0];
+        $this->assertSame($friends2[1], $friends2[0]);
+        $this->assertFalse(empty($friends2[1]));
     }
 }
