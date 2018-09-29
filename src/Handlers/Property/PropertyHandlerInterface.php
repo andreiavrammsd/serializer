@@ -1,18 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace Serializer\Definition;
+namespace Serializer\Handlers\Property;
 
+use Serializer\Handlers\HandlerInterface;
 use Serializer\Parser\Variable;
 
-interface DefinitionInterface
+interface PropertyHandlerInterface extends HandlerInterface
 {
     const ARGUMENTS_PATTERN = '#"(.*?)"#';
-
-    /**
-     * @param mixed $data
-     * @return array|string
-     */
-    public function getDefinition($data);
 
     /**
      * @param mixed $definition

@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Serializer\Collection;
 use Serializer\SerializerBuilder;
 use Serializer\Tests\Data\Response\Condition;
+use Serializer\Tests\Data\Response\ConditionItem;
+use Serializer\Tests\Data\Response\ConditionList;
 use Serializer\Tests\Data\Response\Current;
 use Serializer\Tests\Data\Response\CurrentWeather;
 use Serializer\Tests\Data\Response\Location;
@@ -13,11 +15,11 @@ use Serializer\Tests\Data\Response\User;
 
 class SerializerTest extends TestCase
 {
-    public function testUnserialize()
+    public function testUnserializeProperty()
     {
         $serializer = SerializerBuilder::instance()
             ->setFormat('json')
-            ->setDefinitions([])
+            ->setObjectHandlers([])
             ->build();
 
         $input = '{
@@ -173,5 +175,42 @@ class SerializerTest extends TestCase
         $friends2[1] = $friends2[0];
         $this->assertSame($friends2[1], $friends2[0]);
         $this->assertFalse(empty($friends2[1]));
+    }
+
+    public function testUnserializeClass()
+    {
+        $serializer = SerializerBuilder::instance()
+            ->setFormat('json')
+            ->build();
+
+        $input = '[
+            {
+                "code" : 1000,
+                "day" : "Sunny",
+                "night" : "Clear",
+                "icon" : 113
+            },
+            {
+                "code" : 1003,
+                "day" : "Partly cloudy",
+                "night" : "Partly cloudy",
+                "icon" : 116
+            }
+        ]';
+
+        /** @var ConditionItem[] $object */
+        $object = $serializer->unserialize($input, ConditionList::class);
+        $this->assertCount(2, $object);
+        $this->assertContainsOnlyInstancesOf(ConditionItem::class, $object);
+
+        $this->assertSame(1000, $object[0]->getCode());
+        $this->assertSame('Sunny', $object[0]->getDay());
+        $this->assertSame('Clear', $object[0]->getNight());
+        $this->assertSame(113, $object[0]->getIcon());
+
+        $this->assertSame(1003, $object[1]->getCode());
+        $this->assertSame('Partly cloudy', $object[1]->getDay());
+        $this->assertSame('Partly cloudy', $object[1]->getNight());
+        $this->assertSame(116, $object[1]->getIcon());
     }
 }

@@ -1,12 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace Serializer\Definition;
+namespace Serializer\Handlers\Property;
 
 use Serializer\Collection;
 use Serializer\Parser\ParserInterface;
 use Serializer\Parser\Variable;
 
-class Type implements DefinitionInterface
+class Type implements PropertyHandlerInterface
 {
     const ITEM_SET_PATTERN = '#(array|collection)\[([a-z0-9_\\\]+)\]#i';
 

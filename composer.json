@@ -2,7 +2,7 @@
     "name": "andreiavrammsd/serializer",
     "type": "library",
     "description": "JSON string to object.",
-    "keywords": ["json", "serializer"],
+    "keywords": ["json", "serializer", "unserializer", "transformer"],
     "license": "MIT",
     "authors": [
         {

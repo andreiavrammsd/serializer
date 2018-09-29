@@ -19,7 +19,7 @@ $object = $serializer->unserialize($input, $class);
 
 See [tests](./tests/SerializerTest.php).
 
-## Annotations
+## Property annotations
 * Property: name of key in input.
 * Type: If set, the value will be transformed as follows
     * int, float, string, bool, array: will cast value to the [type](https://secure.php.net/manual/en/language.types.intro.php#language.types.intro).
@@ -48,6 +48,12 @@ See [tests](./tests/SerializerTest.php).
 * @Serializer\Callback("substr", "0", "3")
 * @Serializer\Callback("[User\NameFormatter, firstName]")
 * @Serializer\Callback("[User\NameFormatter, lastName]", "1", "3")
+
+## Object class annotations
+* Collection: a class annotated with Collection and extending the [Collection](./src/Collection.php) class will be a collection class with its items of the specified class type.
+
+#### Examples
+* @Serializer\Collection("Entity\User")
 
 ## Development
 * Requirements: Docker, Make

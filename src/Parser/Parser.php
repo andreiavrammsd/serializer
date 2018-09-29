@@ -2,34 +2,38 @@
 
 namespace Serializer\Parser;
 
-use Serializer\Definition\DefinitionInterface;
+use Serializer\Handlers\HandlerInterface;
+use Serializer\Handlers\Object\ObjectHandlerInterface;
+use Serializer\Handlers\Property\PropertyHandlerInterface;
 
 class Parser implements ParserInterface
 {
     const DEFINITION_PATTERN = '#@Serializer\\\([a-z]+)\((.+)\)#i';
 
     /**
-     * @var array[DefinitionInterface]
+     * @var array[ObjectHandlerInterface]
      */
-    private $definitionHandlers;
+    private $objectHandlers;
+
+    /**
+     * @var array[PropertyHandlerInterface]
+     */
+    private $propertyHandlers;
 
     /**
      * {@inheritdoc}
      */
-    public function registerDefinitionHandler(DefinitionInterface $handler)
+    public function registerObjectHandler(ObjectHandlerInterface $handler)
     {
-        $this->definitionHandlers [$this->getHandlerName($handler)] = $handler;
+        $this->objectHandlers [$this->getHandlerName($handler)] = $handler;
     }
 
     /**
-     * @param DefinitionInterface $handler
-     * @return string
+     * {@inheritdoc}
      */
-    private function getHandlerName(DefinitionInterface $handler)
+    public function registerPropertyHandler(PropertyHandlerInterface $handler)
     {
-        $className = get_class($handler);
-
-        return substr($className, strrpos($className, '\\') + 1);
+        $this->propertyHandlers [$this->getHandlerName($handler)] = $handler;
     }
 
     /**
@@ -40,14 +44,60 @@ class Parser implements ParserInterface
         $reflectionClass = new \ReflectionClass($class);
         $object = $reflectionClass->newInstanceWithoutConstructor();
 
+        $this->parseClass($reflectionClass, $object, $data);
+        $this->parseProperties($reflectionClass, $object, $data);
+
+        return $object;
+    }
+
+    /**
+     * @param HandlerInterface $handler
+     * @return string
+     */
+    private function getHandlerName(HandlerInterface $handler)
+    {
+        $className = get_class($handler);
+
+        return substr($className, strrpos($className, '\\') + 1);
+    }
+
+    /**
+     * @param \ReflectionClass $reflectionClass
+     * @param object $object
+     * @param array $data
+     */
+    private function parseClass(\ReflectionClass $reflectionClass, object $object, array $data)
+    {
+        $definitions = $this->getDefinitions((string)$reflectionClass->getDocComment());
+
+        /** @var ObjectHandlerInterface $handler */
+        foreach ($this->objectHandlers as $name => $handler) {
+            if (!array_key_exists($name, $definitions)) {
+                continue;
+            }
+
+            foreach ($definitions[$name] as $d) {
+                $definition = $handler->getDefinition($d);
+                $handler->setObject($definition, $object, $data);
+            }
+        }
+    }
+
+    /**
+     * @param \ReflectionClass $reflectionClass
+     * @param object $object
+     * @param array $data
+     */
+    private function parseProperties(\ReflectionClass $reflectionClass, object $object, array $data)
+    {
         foreach ($reflectionClass->getProperties() as $property) {
             $definitions = $this->getDefinitions((string)$property->getDocComment());
 
             $variable = new Variable($property, $object);
             $variable->setValue($this->getDefaultValue($property, $data));
 
-            /** @var DefinitionInterface $handler */
-            foreach ($this->definitionHandlers as $name => $handler) {
+            /** @var PropertyHandlerInterface $handler */
+            foreach ($this->propertyHandlers as $name => $handler) {
                 if (!array_key_exists($name, $definitions)) {
                     continue;
                 }
@@ -58,8 +108,6 @@ class Parser implements ParserInterface
                 }
             }
         }
-
-        return $object;
     }
 
     /**

@@ -2,14 +2,21 @@
 
 namespace Serializer\Parser;
 
-use Serializer\Definition\DefinitionInterface;
+use Serializer\Handlers\Object\ObjectHandlerInterface;
+use Serializer\Handlers\Property\PropertyHandlerInterface;
 
 interface ParserInterface
 {
     /**
-     * @param DefinitionInterface $handler
+     * @param ObjectHandlerInterface $handler
      */
-    public function registerDefinitionHandler(DefinitionInterface $handler);
+    public function registerObjectHandler(ObjectHandlerInterface $handler);
+
+    /**
+     * /**
+     * @param PropertyHandlerInterface $handler
+     */
+    public function registerPropertyHandler(PropertyHandlerInterface $handler);
 
     /**
      * @param array $data

@@ -2,12 +2,13 @@
 
 namespace Serializer;
 
-use Serializer\Definition\Callback;
-use Serializer\Definition\Property;
-use Serializer\Definition\Type;
 use Serializer\Format\FormatFactory;
 use Serializer\Format\FormatInterface;
 use Serializer\Format\UnknownFormatException;
+use Serializer\Handlers\Object\Collection;
+use Serializer\Handlers\Property\Callback;
+use Serializer\Handlers\Property\Property;
+use Serializer\Handlers\Property\Type;
 use Serializer\Parser\Parser;
 
 final class SerializerBuilder
@@ -20,7 +21,14 @@ final class SerializerBuilder
     /**
      * @var array
      */
-    private $definitions = [
+    private $objectHandlers = [
+        Collection::class,
+    ];
+
+    /**
+     * @var array
+     */
+    private $propertyHandlers = [
         Property::class,
         Type::class,
         Callback::class,
@@ -48,12 +56,23 @@ final class SerializerBuilder
     }
 
     /**
-     * @param array $definitions
+     * @param array $handlers
      * @return SerializerBuilder
      */
-    public function setDefinitions(array $definitions) : SerializerBuilder
+    public function setObjectHandlers(array $handlers) : SerializerBuilder
     {
-        $this->definitions = array_merge($this->definitions, $definitions);
+        $this->objectHandlers = array_merge($this->objectHandlers, $handlers);
+
+        return $this;
+    }
+
+    /**
+     * @param array $handlers
+     * @return SerializerBuilder
+     */
+    public function setPropertyHandlers(array $handlers) : SerializerBuilder
+    {
+        $this->propertyHandlers = array_merge($this->propertyHandlers, $handlers);
 
         return $this;
     }
@@ -64,8 +83,11 @@ final class SerializerBuilder
     public function build() : SerializerInterface
     {
         $parser = new Parser();
-        foreach ($this->definitions as $class) {
-            $parser->registerDefinitionHandler(new $class($parser));
+        foreach ($this->objectHandlers as $class) {
+            $parser->registerObjectHandler(new $class($parser));
+        }
+        foreach ($this->propertyHandlers as $class) {
+            $parser->registerPropertyHandler(new $class($parser));
         }
 
         return new Serializer($this->format, $parser);

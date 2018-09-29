@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Serializer\Definition;
+namespace Serializer\Handlers\Property;
 
 use Serializer\Parser\Variable;
 
-class Callback implements DefinitionInterface
+class Callback implements PropertyHandlerInterface
 {
     const CLASS_CALLBACK_PATTERN = '#\[(.*),(.*)\]#';
 
