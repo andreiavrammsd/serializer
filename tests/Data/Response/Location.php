@@ -1,6 +1,6 @@
 <?php
 
-namespace Serializer\Tests\Response;
+namespace Serializer\Tests\Data\Response;
 
 class Location
 {
@@ -10,54 +10,65 @@ class Location
      * @Serializer\Callback("trim")
      */
     public $timezone;
+
     /**
      * @Serializer\Property("localtime2")
      * @Serializer\Type("DateTime", "Y-m-d H")
      */
     public $localtime2;
+
     /**
      * @Serializer\Property("values")
      * @Serializer\Type("array")
      */
     public $values;
+
     /**
      * @Serializer\Property("other_Locations")
-     * @Serializer\Type("array[Serializer\Tests\Response\Location]")
+     * @Serializer\Type("array[Serializer\Tests\Data\Response\Location]")
      */
     public $otherLocations;
+
     /**
      * @Serializer\Property("name")
      * @Serializer\Type("string")
      */
     private $name;
+
     /**
      * @Serializer\Property("region")
      * @Serializer\Type("string")
      */
     private $region;
+
     private $country;
+
     /**
      * @Serializer\Property("lat")
      * @Serializer\Type("float")
      */
     private $lat;
+
     /**
      * @Serializer\Type("string")
      */
     private $lon;
+
     /**
      * @Serializer\Property("localtime_epoch")
      * @Serializer\Type("int")
      */
     private $localtimeEpoch;
+
     /**
      * @Serializer\Property("localtime")
      * @Serializer\Type("DateTime", "Y-m-d H:i")
      */
     private $localtime;
+
     /**
      * @Serializer\Property("childLocation")
-     * @Serializer\Type("Serializer\Tests\Response\Location")
+     * @Serializer\Type("Serializer\Tests\Data\Response\Location")
      */
     private $childLocation;
 

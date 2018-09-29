@@ -4,11 +4,11 @@ namespace Serializer\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Serializer\SerializerBuilder;
-use Serializer\Tests\Response\Condition;
-use Serializer\Tests\Response\Current;
-use Serializer\Tests\Response\CurrentWeather;
-use Serializer\Tests\Response\Location;
-use Serializer\Tests\Response\User;
+use Serializer\Tests\Data\Response\Condition;
+use Serializer\Tests\Data\Response\Current;
+use Serializer\Tests\Data\Response\CurrentWeather;
+use Serializer\Tests\Data\Response\Location;
+use Serializer\Tests\Data\Response\User;
 
 class SerializerTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Serializer\Tests\Response;
+namespace Serializer\Tests\Data\Response;
 
 class Current
 {
@@ -12,7 +12,7 @@ class Current
 
     /**
      * @Serializer\Property("condition")
-     * @Serializer\Type("Serializer\Tests\Response\Condition")
+     * @Serializer\Type("Serializer\Tests\Data\Response\Condition")
      */
     private $condition;
 

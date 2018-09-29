@@ -1,6 +1,6 @@
 <?php
 
-namespace Serializer\Tests\Response;
+namespace Serializer\Tests\Data\Response;
 
 class Condition
 {

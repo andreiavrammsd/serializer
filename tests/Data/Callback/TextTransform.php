@@ -1,6 +1,6 @@
 <?php
 
-namespace Serializer\Tests\Callback;
+namespace Serializer\Tests\Data\Callback;
 
 class TextTransform
 {

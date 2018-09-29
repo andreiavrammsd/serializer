@@ -1,18 +1,18 @@
 <?php
 
-namespace Serializer\Tests\Response;
+namespace Serializer\Tests\Data\Response;
 
 class CurrentWeather
 {
     /**
      * @Serializer\Property("location")
-     * @Serializer\Type("Serializer\Tests\Response\Location")
+     * @Serializer\Type("Serializer\Tests\Data\Response\Location")
      */
     private $location;
 
     /**
      * @Serializer\Property("current")
-     * @Serializer\Type("Serializer\Tests\Response\Current")
+     * @Serializer\Type("Serializer\Tests\Data\Response\Current")
      */
     private $current;
 
