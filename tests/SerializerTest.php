@@ -19,7 +19,12 @@ class SerializerTest extends TestCase
     {
         $serializer = SerializerBuilder::instance()
             ->setFormat('json')
-            ->setObjectHandlers([])
+            ->setObjectHandlers([
+                \Serializer\Handlers\Object\Collection::class,
+            ])
+            ->setPropertyHandlers([
+                \Serializer\Handlers\Property\Type::class,
+            ])
             ->build();
 
         $input = '{
