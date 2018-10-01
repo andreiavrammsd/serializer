@@ -8,8 +8,6 @@ use Serializer\Handlers\Property\PropertyHandlerInterface;
 
 class Parser implements ParserInterface
 {
-    const DEFINITION_PATTERN = '#@Serializer\\\([a-z]+)\((.+)\)#i';
-
     /**
      * @var array[ObjectHandlerInterface]
      */
