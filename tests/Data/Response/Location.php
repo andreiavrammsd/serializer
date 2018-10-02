@@ -36,6 +36,12 @@ class Location
     private $name;
 
     /**
+     * @Serializer\Property("secondary_name")
+     * @Serializer\Type("string")
+     */
+    private $secondaryName;
+
+    /**
      * @Serializer\Property("region")
      * @Serializer\Type("string")
      */
@@ -75,6 +81,11 @@ class Location
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getSecondaryName() : ?string
+    {
+        return $this->secondaryName;
     }
 
     public function getRegion()

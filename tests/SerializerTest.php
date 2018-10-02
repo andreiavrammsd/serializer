@@ -123,7 +123,8 @@ class SerializerTest extends TestCase
         $this->assertSame('A', $otherLocations[0]->otherLocations[0]->getName());
         $this->assertSame('B', $otherLocations[0]->otherLocations[1]->getName());
         $this->assertSame('London Center 2', $otherLocations[1]->getName());
-        $this->assertSame([], $otherLocations[1]->values);
+        $this->assertNull($otherLocations[1]->getSecondaryName());
+        $this->assertNull($otherLocations[1]->values);
 
         /** @var Current $current */
         $current = $object->getCurrent();

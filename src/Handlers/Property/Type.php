@@ -43,10 +43,13 @@ class Type implements PropertyHandlerInterface
      */
     public function setVariableValue($definition, Variable $variable, array $data)
     {
+        $value = $variable->getValue();
+        if ($value === null) {
+            return null;
+        }
+
         $type = $definition['name'];
         $typeArgs = $definition['args'];
-
-        $value = $variable->getValue();
 
         switch ($type) {
             case 'int':
@@ -115,10 +118,6 @@ class Type implements PropertyHandlerInterface
      */
     private function getDataSet($value, $type)
     {
-        if ($value === null) {
-            return null;
-        }
-
         preg_match(self::ITEM_SET_PATTERN, $type, $match);
         if ($match) {
             $result = null;
