@@ -138,6 +138,8 @@ class SerializerTest extends TestCase
            "fname":2,
            "age":12,
            "points": [1, null, false, " ", "a", [1, 2, "3"]],
+           "points2": "1",
+           "points3": null,
            "friends":[
               {
                  "fname":"Doe",
@@ -159,6 +161,8 @@ class SerializerTest extends TestCase
         $this->assertSame('2', $object->firstName);
         $this->assertSame(12, $object->getAge());
         $this->assertEquals(new Collection([1, null, false, ' ', 'a', [1, 2, '3'],]), $object->points);
+        $this->assertEquals(new Collection([1,]), $object->points2);
+        $this->assertNull($object->points3);
         $this->assertContainsOnlyInstancesOf($class, $object->friends);
         $this->assertCount(2, $object->friends);
         $this->assertEquals((new \DateTime())->setTimestamp(1538516060), $object->updated);

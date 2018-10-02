@@ -22,11 +22,24 @@ class User
      * @Serializer\Type("collection[Serializer\Tests\Data\Response\User]")
      */
     public $friends2;
+
     /**
      * @Serializer\Property("points")
      * @Serializer\Type("collection")
      */
     public $points;
+
+    /**
+     * @Serializer\Property("points2")
+     * @Serializer\Type("collection")
+     */
+    public $points2;
+
+    /**
+     * @Serializer\Property("points3")
+     * @Serializer\Type("collection")
+     */
+    public $points3;
 
     /**
      * @Serializer\Property("age")

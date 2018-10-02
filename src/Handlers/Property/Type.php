@@ -83,11 +83,12 @@ class Type implements PropertyHandlerInterface
      */
     private function getCollection($value)
     {
+        $data = $value;
         if (!is_array($value)) {
-            return null;
+            $data = [$value];
         }
 
-        return new Collection($value);
+        return new Collection($data);
     }
 
     /**
