@@ -34,6 +34,12 @@ class User
      */
     private $age;
 
+    /**
+     * @Serializer\Property("updated")
+     * @Serializer\Type("DateTime")
+     */
+    public $updated;
+
     public function getAge()
     {
         return $this->age;

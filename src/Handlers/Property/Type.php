@@ -97,14 +97,18 @@ class Type implements PropertyHandlerInterface
      */
     private function getDateTime($timestamp, array $formats)
     {
-        if (!is_string($timestamp)) {
-            return null;
+        if (is_int($timestamp)) {
+            $dateTime = new \DateTime();
+            $dateTime->setTimestamp($timestamp);
+            return $dateTime;
         }
 
-        foreach ($formats as $format) {
-            $dateTime = \DateTime::createFromFormat($format, $timestamp);
-            if (false !== $dateTime) {
-                return $dateTime;
+        if (is_string($timestamp)) {
+            foreach ($formats as $format) {
+                $dateTime = \DateTime::createFromFormat($format, $timestamp);
+                if (false !== $dateTime) {
+                    return $dateTime;
+                }
             }
         }
 

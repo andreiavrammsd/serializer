@@ -147,7 +147,8 @@ class SerializerTest extends TestCase
                  "fname":"john JOHNNY",
                  "age":2
               }
-           ]
+           ],
+           "updated": 1538516060
         }';
         $class = User::class;
 
@@ -160,6 +161,7 @@ class SerializerTest extends TestCase
         $this->assertEquals(new Collection([1, null, false, ' ', 'a', [1, 2, '3'],]), $object->points);
         $this->assertContainsOnlyInstancesOf($class, $object->friends);
         $this->assertCount(2, $object->friends);
+        $this->assertEquals((new \DateTime())->setTimestamp(1538516060), $object->updated);
 
         /** @var User[] $friends */
         $friends = $object->friends;
