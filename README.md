@@ -15,6 +15,8 @@ $serializer = SerializerBuilder::instance()
     ->build();
     
 $object = $serializer->unserialize($input, $class);
+
+print_r($object->toArray());
 ```
 
 See [tests](./tests/SerializerTest.php).
@@ -54,6 +56,10 @@ See [tests](./tests/SerializerTest.php).
 
 #### Examples
 * @Serializer\Collection("Entity\User")
+
+## ToArray
+You can get the array representation of a class by using [ToArrayTrait](./src/ToArray/ToArrayTrait.php). It's recommended you indicate your class can return the array representation by [ToArrayInterface](./src/ToArray/ToArrayInterface.php).
+All your classes you need an array value from must implement ToArrayInterface. Nulls items are not set in arrays, arrays with no elements are nulls.
 
 ## Development
 * Requirements: Docker, Make

@@ -7,9 +7,9 @@ use Serializer\ToArray\ToArrayInterface;
 use Serializer\ToArray\ToArrayTrait;
 
 /**
- * @Serializer\Collection("Serializer\Tests\Data\Response\ConditionItem")
+ * @Serializer\Collection("Serializer\Tests\Data\Response\ConditionItemNoArrayItem")
  */
-class ConditionList extends Collection implements ToArrayInterface
+class ConditionListNoArrayItem extends Collection implements ToArrayInterface
 {
     use ToArrayTrait;
 }

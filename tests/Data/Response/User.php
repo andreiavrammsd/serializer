@@ -2,8 +2,13 @@
 
 namespace Serializer\Tests\Data\Response;
 
-class User
+use Serializer\ToArray\ToArrayInterface;
+use Serializer\ToArray\ToArrayTrait;
+
+class User implements ToArrayInterface
 {
+    use ToArrayTrait;
+
     /**
      * @Serializer\Property("fname")
      * @Serializer\Type("string")
