@@ -35,7 +35,7 @@ class User implements ToArrayInterface
     public $points;
 
     /**
-     * @Serializer\Property("points2")
+     * @Serializer\Property("points_a")
      * @Serializer\Type("collection")
      */
     public $points2;

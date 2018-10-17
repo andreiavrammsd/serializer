@@ -13,11 +13,10 @@ trait ToArrayTrait
     {
         $data = [];
         foreach ($this as $k => $v) {
-            $isToArray = $v instanceof ToArrayInterface;
-            $value = $this->getValue($v, $isToArray);
+            $value = $this->getValue($v);
 
             if ($value !== null) {
-                $key = $this->getKey($k, $isToArray);
+                $key = $this->getKey($k);
                 $data[$key] = $value;
             }
         }
@@ -29,27 +28,22 @@ trait ToArrayTrait
         return $data;
     }
 
+
     /**
      * @param mixed|ToArrayInterface $value
-     * @param bool $isToArray
      * @return mixed
      */
-    private function getValue($value, $isToArray)
+    private function getValue($value)
     {
-        return $isToArray ? $value->toArray() : $value;
+        return $value instanceof ToArrayInterface ? $value->toArray() : $value;
     }
 
     /**
      * @param string $var
-     * @param bool $isToArray
      * @return string
      */
-    private function getKey(string $var, $isToArray)
+    private function getKey(string $var)
     {
-        if ($isToArray) {
-            return $var;
-        }
-
         $class = new \ReflectionClass($this);
 
         if (!$class->hasProperty($var)) {

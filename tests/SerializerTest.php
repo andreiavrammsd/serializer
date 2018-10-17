@@ -151,7 +151,7 @@ class SerializerTest extends TestCase
            "fname":2,
            "age":12,
            "points": [1, null, false, " ", "a", [1, 2, "3"]],
-           "points2": "1",
+           "points_a": "1",
            "points3": null,
            "friends":[
               {
@@ -200,6 +200,36 @@ class SerializerTest extends TestCase
         $friends2[1] = $friends2[0];
         $this->assertSame($friends2[1], $friends2[0]);
         $this->assertFalse(empty($friends2[1]));
+    }
+
+    public function testToArray()
+    {
+        $input = '{
+           "fname":2,
+           "points": [null, 1],
+           "points_a": "1",
+           "points3": null,
+           "friends":[]
+        }';
+        $class = User::class;
+
+        /** @var User|ToArrayInterface $object */
+        $object = $this->serializer->unserialize($input, $class);
+
+        $expectedArrayWithoutNullValues = [
+            'fname' => '2',
+            'friends' => [],
+            'points' =>
+                [
+                    1 => 1,
+                ],
+            'points_a' =>
+                [
+                    0 => '1',
+                ],
+        ];
+
+        $this->assertEquals($expectedArrayWithoutNullValues, $object->toArray());
     }
 
     public function testUnserializeClass()

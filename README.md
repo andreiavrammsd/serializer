@@ -21,7 +21,7 @@ print_r($object->toArray());
 
 See [tests](./tests/SerializerTest.php).
 
-## Property annotations
+## Property annotations (all annotations are optional)
 * Property: name of key in input. If not set, the variable name is used.
 * Type: If set, the value will be transformed as follows
     * int, float, string, bool, array: will cast value to the [type](https://secure.php.net/manual/en/language.types.intro.php#language.types.intro).
