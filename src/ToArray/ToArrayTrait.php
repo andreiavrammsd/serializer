@@ -35,6 +35,15 @@ trait ToArrayTrait
      */
     private function getValue($value)
     {
+        if (is_iterable($value)) {
+            $result = [];
+            foreach ($value as $k => $v) {
+                $result[$k] = $this->getValue($v);
+            }
+
+            return $result;
+        }
+
         return $value instanceof ToArrayInterface ? $value->toArray() : $value;
     }
 
@@ -50,10 +59,18 @@ trait ToArrayTrait
             return $var;
         }
 
+        $key = $var;
+
         $property = $class->getProperty($var);
         $doc = (string)$property->getDocComment();
-        preg_match(ParserInterface::DEFINITION_PATTERN, $doc, $match);
 
-        return $match ? trim($match[2], '" ') : $var;
+        if ($doc) {
+            preg_match(ParserInterface::PROPERTY_DEFINITION_PATTERN, $doc, $match);
+            if ($match) {
+                $key = $match[1];
+            }
+        }
+
+        return $key;
     }
 }

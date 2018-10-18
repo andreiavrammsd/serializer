@@ -15,6 +15,7 @@ use Serializer\Tests\Data\Response\Current;
 use Serializer\Tests\Data\Response\CurrentWeather;
 use Serializer\Tests\Data\Response\Location;
 use Serializer\Tests\Data\Response\NullableArray;
+use Serializer\Tests\Data\Response\Person;
 use Serializer\Tests\Data\Response\User;
 use Serializer\ToArray\ToArrayInterface;
 
@@ -205,31 +206,47 @@ class SerializerTest extends TestCase
     public function testToArray()
     {
         $input = '{
-           "fname":2,
+           "name":"John Doe",
+           "related":[
+              {
+                 "name":"Doe",
+                 "age":12
+              },
+              {
+                 "name":"john JOHNNY",
+                 "age":35
+              }
+           ],
            "points": [null, 1],
-           "points_a": "1",
-           "points3": null,
-           "friends":[]
+           "options": [],
+           "age": 22
         }';
-        $class = User::class;
+        $class = Person::class;
 
-        /** @var User|ToArrayInterface $object */
+        /** @var Person|ToArrayInterface $object */
         $object = $this->serializer->unserialize($input, $class);
 
-        $expectedArrayWithoutNullValues = [
-            'fname' => '2',
-            'friends' => [],
+        $expectedArray = [
+            'name' => 'John Doe',
+            'related' => [
+                [
+                    'name' => 'Doe',
+                    'age' => 12,
+                ],
+                [
+                    'name' => 'john JOHNNY',
+                    'age' => 35,
+                ],
+            ],
             'points' =>
                 [
+                    0 => null,
                     1 => 1,
                 ],
-            'points_a' =>
-                [
-                    0 => '1',
-                ],
+            'age' => 22,
         ];
 
-        $this->assertEquals($expectedArrayWithoutNullValues, $object->toArray());
+        $this->assertEquals($expectedArray, $object->toArray());
     }
 
     public function testUnserializeClass()
