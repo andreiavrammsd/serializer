@@ -1,8 +1,6 @@
 # PHP Serializer
 
-### Under development
-
-Very basic serializer/unserializer.
+Very basic serializer/unserializer (currently only unserialize feature is implemented).
 Also transforms data by types and/or callbacks.
 
 ## Usage
