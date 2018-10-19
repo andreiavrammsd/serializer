@@ -3,7 +3,6 @@
 namespace Serializer;
 
 use Serializer\Format\FormatFactory;
-use Serializer\Format\FormatInterface;
 use Serializer\Format\UnknownFormatException;
 use Serializer\Handlers\Object\Collection;
 use Serializer\Handlers\Property\Callback;
@@ -14,10 +13,12 @@ use Serializer\Parser\Parser;
 
 final class SerializerBuilder
 {
+    const DEFAULT_FORMAT = 'json';
+
     /**
-     * @var FormatInterface
+     * @var string
      */
-    private $format;
+    private $format = self::DEFAULT_FORMAT;
 
     /**
      * @var array
@@ -37,7 +38,6 @@ final class SerializerBuilder
 
     /**
      * @return SerializerBuilder
-     * @throws UnknownFormatException
      */
     public static function instance() : SerializerBuilder
     {
@@ -47,11 +47,10 @@ final class SerializerBuilder
     /**
      * @param string $format
      * @return $this
-     * @throws UnknownFormatException
      */
     public function setFormat(string $format)
     {
-        $this->format = FormatFactory::get($format);
+        $this->format = $format;
 
         return $this;
     }
@@ -80,9 +79,12 @@ final class SerializerBuilder
 
     /**
      * @return SerializerInterface
+     * @throws UnknownFormatException
      */
     public function build() : SerializerInterface
     {
+        $format = FormatFactory::get($this->format);
+
         $parser = new Parser();
         foreach ($this->objectHandlers as $class) {
             $parser->registerObjectHandler(new $class($parser));
@@ -93,6 +95,6 @@ final class SerializerBuilder
 
         $objectToArray = new ObjectToArray();
 
-        return new Serializer($this->format, $parser, $objectToArray);
+        return new Serializer($format, $parser, $objectToArray);
     }
 }

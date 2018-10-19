@@ -1,6 +1,6 @@
 <?php
 
-namespace Serializer\Tests\Data\Response;
+namespace Serializer\Tests\Parser\Data\Response;
 
 class Location
 {
@@ -25,7 +25,7 @@ class Location
 
     /**
      * @Serializer\Property("other_Locations")
-     * @Serializer\Type("array[Serializer\Tests\Data\Response\Location]")
+     * @Serializer\Type("array[Serializer\Tests\Parser\Data\Response\Location]")
      */
     public $otherLocations;
 
@@ -74,7 +74,7 @@ class Location
 
     /**
      * @Serializer\Property("childLocation")
-     * @Serializer\Type("Serializer\Tests\Data\Response\Location")
+     * @Serializer\Type("Serializer\Tests\Parser\Data\Response\Location")
      */
     private $childLocation;
 

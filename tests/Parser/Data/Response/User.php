@@ -1,25 +1,25 @@
 <?php
 
-namespace Serializer\Tests\Data\Response;
+namespace Serializer\Tests\Parser\Data\Response;
 
 class User
 {
     /**
      * @Serializer\Property("fname")
      * @Serializer\Type("string")
-     * @Serializer\Callback("[Serializer\Tests\Data\Callback\TextTransform, toName]", "3")
+     * @Serializer\Callback("[Serializer\Tests\Parser\Data\Callback\TextTransform, toName]", "3")
      */
     public $firstName;
 
     /**
      * @Serializer\Property("friends")
-     * @Serializer\Type("array[Serializer\Tests\Data\Response\User]")
+     * @Serializer\Type("array[Serializer\Tests\Parser\Data\Response\User]")
      */
     public $friends;
 
     /**
      * @Serializer\Property("friends")
-     * @Serializer\Type("collection[Serializer\Tests\Data\Response\User]")
+     * @Serializer\Type("collection[Serializer\Tests\Parser\Data\Response\User]")
      */
     public $friends2;
 
