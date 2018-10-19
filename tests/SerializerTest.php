@@ -14,10 +14,7 @@ use Serializer\Tests\Data\Response\ConditionListNoArrayItem;
 use Serializer\Tests\Data\Response\Current;
 use Serializer\Tests\Data\Response\CurrentWeather;
 use Serializer\Tests\Data\Response\Location;
-use Serializer\Tests\Data\Response\NullableArray;
-use Serializer\Tests\Data\Response\Person;
 use Serializer\Tests\Data\Response\User;
-use Serializer\ToArray\ToArrayInterface;
 
 class SerializerTest extends TestCase
 {
@@ -168,7 +165,7 @@ class SerializerTest extends TestCase
         }';
         $class = User::class;
 
-        /** @var User|ToArrayInterface $object */
+        /** @var User $object */
         $object = $this->serializer->unserialize($input, $class);
         $this->assertInstanceOf($class, $object);
 
@@ -181,14 +178,14 @@ class SerializerTest extends TestCase
         $this->assertCount(2, $object->friends);
         $this->assertEquals((new \DateTime())->setTimestamp(1538516060), $object->updated);
 
-        /** @var User[]|ToArrayInterface $friends */
+        /** @var User[] $friends */
         $friends = $object->friends;
         $this->assertSame('Doe', $friends[0]->firstName);
         $this->assertSame(12, $friends[0]->getAge());
         $this->assertSame('John Johnny', $friends[1]->firstName);
         $this->assertSame(2, $friends[1]->getAge());
 
-        /** @var User[]|ToArrayInterface $friends2 */
+        /** @var User[] $friends2 */
         $friends2 = $object->friends2;
         $this->assertSame('Doe', $friends2[0]->firstName);
         $this->assertSame(12, $friends2[0]->getAge());
@@ -201,52 +198,6 @@ class SerializerTest extends TestCase
         $friends2[1] = $friends2[0];
         $this->assertSame($friends2[1], $friends2[0]);
         $this->assertFalse(empty($friends2[1]));
-    }
-
-    public function testToArray()
-    {
-        $input = '{
-           "name":"John Doe",
-           "related":[
-              {
-                 "name":"Doe",
-                 "age":12
-              },
-              {
-                 "name":"john JOHNNY",
-                 "age":35
-              }
-           ],
-           "points": [null, 1],
-           "options": [],
-           "age": 22
-        }';
-        $class = Person::class;
-
-        /** @var Person|ToArrayInterface $object */
-        $object = $this->serializer->unserialize($input, $class);
-
-        $expectedArray = [
-            'name' => 'John Doe',
-            'related' => [
-                [
-                    'name' => 'Doe',
-                    'age' => 12,
-                ],
-                [
-                    'name' => 'john JOHNNY',
-                    'age' => 35,
-                ],
-            ],
-            'points' =>
-                [
-                    0 => null,
-                    1 => 1,
-                ],
-            'age' => 22,
-        ];
-
-        $this->assertEquals($expectedArray, $object->toArray());
     }
 
     public function testUnserializeClass()
@@ -280,8 +231,6 @@ class SerializerTest extends TestCase
         $this->assertSame('Partly cloudy', $object[1]->getDay());
         $this->assertSame('Partly cloudy', $object[1]->getNight());
         $this->assertSame(116, $object[1]->getIcon());
-
-        $this->assertSame(json_decode($input, true), $object->toArray());
     }
 
     public function testUnserializeClassWithNoArrayItem()
@@ -292,25 +241,10 @@ class SerializerTest extends TestCase
             {
             }
         ]';
-        $expected = [
-            new ConditionItemNoArrayItem(),
-            new ConditionItemNoArrayItem(),
-        ];
 
         /** @var ConditionListNoArrayItem|ConditionItemNoArrayItem[] $object */
         $object = $this->serializer->unserialize($input, ConditionListNoArrayItem::class);
         $this->assertCount(2, $object);
         $this->assertContainsOnlyInstancesOf(ConditionItemNoArrayItem::class, $object);
-
-        $this->assertEquals($expected, $object->toArray());
-    }
-
-    public function testNullableArray()
-    {
-        $input = '{}';
-
-        /** @var ToArrayInterface $object */
-        $object = $this->serializer->unserialize($input, NullableArray::class);
-        $this->assertNull($object->toArray());
     }
 }

@@ -2,13 +2,8 @@
 
 namespace Serializer;
 
-use Serializer\ToArray\ToArrayInterface;
-use Serializer\ToArray\ToArrayTrait;
-
-class Collection implements \Iterator, \Countable, \ArrayAccess, ToArrayInterface
+class Collection implements \Iterator, \Countable, \ArrayAccess
 {
-    use ToArrayTrait;
-
     /**
      * @var int
      */

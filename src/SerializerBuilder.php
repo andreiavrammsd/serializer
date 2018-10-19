@@ -9,6 +9,7 @@ use Serializer\Handlers\Object\Collection;
 use Serializer\Handlers\Property\Callback;
 use Serializer\Handlers\Property\Property;
 use Serializer\Handlers\Property\Type;
+use Serializer\ObjectToArray\ObjectToArray;
 use Serializer\Parser\Parser;
 
 final class SerializerBuilder
@@ -90,6 +91,8 @@ final class SerializerBuilder
             $parser->registerPropertyHandler(new $class($parser));
         }
 
-        return new Serializer($this->format, $parser);
+        $objectToArray = new ObjectToArray();
+
+        return new Serializer($this->format, $parser, $objectToArray);
     }
 }

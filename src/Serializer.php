@@ -3,6 +3,7 @@
 namespace Serializer;
 
 use Serializer\Format\FormatInterface;
+use Serializer\ObjectToArray\ObjectToArrayInterface;
 use Serializer\Parser\ParserInterface;
 
 class Serializer implements SerializerInterface
@@ -18,13 +19,23 @@ class Serializer implements SerializerInterface
     private $parser;
 
     /**
+     * @var ObjectToArrayInterface
+     */
+    private $objectToArray;
+
+    /**
      * @param FormatInterface $format
      * @param ParserInterface $parser
+     * @param ObjectToArrayInterface $objectToArray
      */
-    public function __construct(FormatInterface $format, ParserInterface $parser)
-    {
+    public function __construct(
+        FormatInterface $format,
+        ParserInterface $parser,
+        ObjectToArrayInterface $objectToArray
+    ) {
         $this->format = $format;
         $this->parser = $parser;
+        $this->objectToArray = $objectToArray;
     }
 
     /**
@@ -35,5 +46,13 @@ class Serializer implements SerializerInterface
         $data = $this->format->decode($input);
 
         return $this->parser->parse($data, $class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(object $object) : array
+    {
+        return $this->objectToArray->toArray($object);
     }
 }

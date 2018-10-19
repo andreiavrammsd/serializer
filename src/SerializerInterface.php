@@ -7,7 +7,7 @@ use Serializer\Format\InvalidInputException;
 interface SerializerInterface
 {
     /**
-     * Converts input string into given class object.
+     * Converts input string into given class object
      *
      * @param string $input
      * @param string $class
@@ -15,4 +15,12 @@ interface SerializerInterface
      * @throws InvalidInputException
      */
     public function unserialize(string $input, string $class);
+
+    /**
+     * Converts input object to array
+     *
+     * @param object $object
+     * @return array
+     */
+    public function toArray(object $object) : array;
 }

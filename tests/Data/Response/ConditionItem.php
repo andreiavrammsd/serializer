@@ -2,13 +2,8 @@
 
 namespace Serializer\Tests\Data\Response;
 
-use Serializer\ToArray\ToArrayInterface;
-use Serializer\ToArray\ToArrayTrait;
-
-class ConditionItem implements ToArrayInterface
+class ConditionItem
 {
-    use ToArrayTrait;
-
     private $code;
     private $day;
     private $night;

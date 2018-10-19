@@ -9,5 +9,4 @@ use Serializer\Collection;
  */
 class ConditionListNoArrayItem extends Collection
 {
-
 }
