@@ -1,23 +1,21 @@
 # PHP Serializer
 
-Very basic serializer/unserializer (currently only unserialize feature is implemented).
-Also transforms data by types and/or callbacks.
+Very basic serializer/unserializer/toarray. Also transforms data by types and/or callbacks.
+Currently only unserialize and toarray features are implemented, and handles only JSON.
 
 ## Usage
 ```
 $input = '{...}';
 $class = ObjectClass::class;
 
-$serializer = SerializerBuilder::instance()
-    ->setFormat('json')
-    ->build();
-    
+$serializer = SerializerBuilder::instance()->build();
+
 $object = $serializer->unserialize($input, $class);
 
-print_r($object->toArray());
+print_r($serializer->toArray($object));
 ```
 
-See [tests](./tests/SerializerTest.php).
+See [tests](./tests).
 
 ## Property annotations (all annotations are optional)
 * Property: name of key in input. If not set, the variable name is used.
@@ -56,8 +54,7 @@ See [tests](./tests/SerializerTest.php).
 * @Serializer\Collection("Entity\User")
 
 ## ToArray
-You can get the array representation of a class by using [ToArrayTrait](./src/ToArray/ToArrayTrait.php). It's recommended you indicate your class can return the array representation by [ToArrayInterface](./src/ToArray/ToArrayInterface.php).
-All your classes you need an array value from must implement ToArrayInterface. Nulls items are not set in arrays, arrays with no elements are nulls.
+Converts an object to an array.
 
 ## Development
 * Requirements: Docker, Make
