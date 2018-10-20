@@ -55,6 +55,7 @@ See [tests](./tests).
 
 ## ToArray
 Converts an object to an array.
+Add @Serializer\IgnoreNull() annotation to ignore null values.
 
 ## Development
 * Requirements: Docker, Make

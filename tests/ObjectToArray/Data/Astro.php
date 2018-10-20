@@ -9,6 +9,7 @@ class Astro
      *
      * @Serializer\Property("sunrise")
      * @Serializer\Type("string")
+     * @Serializer\IgnoreNull()
      */
     private $sunrise;
 

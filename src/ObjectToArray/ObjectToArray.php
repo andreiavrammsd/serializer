@@ -3,7 +3,7 @@
 namespace Serializer\ObjectToArray;
 
 use Serializer\Collection;
-use Serializer\Parser\ParserInterface;
+use Serializer\DefinitionPatterns;
 
 final class ObjectToArray implements ObjectToArrayInterface
 {
@@ -23,9 +23,14 @@ final class ObjectToArray implements ObjectToArrayInterface
 
         foreach ($properties as $property) {
             $property->setAccessible(true);
-            $value = $this->getValue($property->getValue($object));
 
-            $key = $this->getKey($property);
+            $value = $this->getValue($property->getValue($object));
+            $doc = $property->getDocComment();
+            if ($value === null && $doc !== false && $this->ignoreNull($doc)) {
+                continue;
+            }
+
+            $key = $this->getKey($property->getName(), (string)$doc);
 
             $data[$key] = $value;
         }
@@ -74,21 +79,26 @@ final class ObjectToArray implements ObjectToArrayInterface
     }
 
     /**
-     * @param \ReflectionProperty $property
+     * @param string $key
+     * @param string $doc
      * @return string
      */
-    private function getKey(\ReflectionProperty $property)
+    private function getKey(string $key, string $doc) : string
     {
-        $key = $property->getName();
-        $doc = (string)$property->getDocComment();
-
-        if ($doc) {
-            preg_match(ParserInterface::PROPERTY_DEFINITION_PATTERN, $doc, $match);
-            if ($match) {
-                $key = $match[1];
-            }
+        preg_match(DefinitionPatterns::PROPERTY, $doc, $match);
+        if ($match) {
+            $key = $match[1];
         }
 
         return $key;
+    }
+
+    /**
+     * @param string $doc
+     * @return bool
+     */
+    private function ignoreNull(string $doc) : bool
+    {
+        return strpos($doc, DefinitionPatterns::IGNORE_NULL) !== false;
     }
 }

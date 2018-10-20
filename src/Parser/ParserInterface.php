@@ -7,9 +7,6 @@ use Serializer\Handlers\Property\PropertyHandlerInterface;
 
 interface ParserInterface
 {
-    const DEFINITION_PATTERN = '#@Serializer\\\([a-z]+)\((.+)\)#i';
-    const PROPERTY_DEFINITION_PATTERN = '#@Serializer\\\Property\("(.+)"\)#i';
-
     /**
      * @param ObjectHandlerInterface $handler
      */

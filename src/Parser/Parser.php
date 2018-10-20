@@ -5,6 +5,7 @@ namespace Serializer\Parser;
 use Serializer\Handlers\HandlerInterface;
 use Serializer\Handlers\Object\ObjectHandlerInterface;
 use Serializer\Handlers\Property\PropertyHandlerInterface;
+use Serializer\DefinitionPatterns;
 
 class Parser implements ParserInterface
 {
@@ -115,7 +116,7 @@ class Parser implements ParserInterface
     private function getDefinitions(string $comment) : array
     {
         $definitions = [];
-        preg_match_all(self::DEFINITION_PATTERN, $comment, $matches);
+        preg_match_all(DefinitionPatterns::DEFINITION, $comment, $matches);
 
         foreach ($matches[1] as $key => $value) {
             $definitions[$value][] = $matches[2][$key];

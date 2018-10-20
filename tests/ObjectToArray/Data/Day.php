@@ -19,6 +19,8 @@ class Day
      */
     private $condition;
 
+    private $state;
+
     /**
      * @param \stdClass $avgHumidity
      */
@@ -33,5 +35,13 @@ class Day
     public function setCondition($condition)
     {
         $this->condition = $condition;
+    }
+
+    /**
+     * @param int $state
+     */
+    public function setState(int $state)
+    {
+        $this->state = $state;
     }
 }

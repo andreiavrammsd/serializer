@@ -67,6 +67,7 @@ class ObjectToArrayTest extends TestCase
         $day = new Day();
         $day->setAvgHumidity((object)34.4);
         $day->setCondition(new CurrentCondition());
+        $day->setState(2);
         $astro = new Astro();
         $astro->setSunrise(null);
 
@@ -120,9 +121,9 @@ class ObjectToArrayTest extends TestCase
                             'condition' => [
                                 'text' => null,
                             ],
+                            'state' => 2,
                         ],
                         'astro' => [
-                            'sunrise' => null,
                         ],
                         'astros' => [
                             0 => [
@@ -140,9 +141,9 @@ class ObjectToArrayTest extends TestCase
                             'condition' => [
                                 'text' => null,
                             ],
+                            'state' => 2,
                         ],
                         'astro' => [
-                            'sunrise' => null,
                         ],
                         'astros' => [
                             0 => [
