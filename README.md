@@ -3,6 +3,9 @@
 Very basic serializer/unserializer/toarray. Also transforms data by types and/or callbacks.
 Currently only unserialize and toarray features are implemented, and handles only JSON.
 
+## Install
+composer require andreiavrammsd/serializer
+
 ## Usage
 ```
 $input = '{...}';
