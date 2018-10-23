@@ -12,6 +12,8 @@ $input = '{...}';
 $class = ObjectClass::class;
 
 $serializer = SerializerBuilder::instance()->build();
+OR
+$serializer = Factory::create();
 
 $object = $serializer->unserialize($input, $class);
 
