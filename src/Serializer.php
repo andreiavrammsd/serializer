@@ -51,7 +51,7 @@ class Serializer implements SerializerInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(object $object) : array
+    public function toArray($object) : array
     {
         return $this->objectToArray->toArray($object);
     }

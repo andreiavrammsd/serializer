@@ -32,7 +32,7 @@ class ObjectToArrayTest extends TestCase
      * @param object $object
      * @param array $expected
      */
-    public function testToArray(object $object, array $expected)
+    public function testToArray($object, array $expected)
     {
         $array = $this->toArray->toArray($object);
         $this->assertEquals($expected, $array);

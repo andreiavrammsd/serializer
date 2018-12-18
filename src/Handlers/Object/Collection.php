@@ -30,7 +30,7 @@ class Collection implements ObjectHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function setObject($definition, object $object, array $data)
+    public function setObject($definition, $object, array $data)
     {
         /** @var \Serializer\Collection $object */
         foreach ($data as $k => $v) {
