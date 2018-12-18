@@ -10,7 +10,7 @@ final class ObjectToArray implements ObjectToArrayInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(object $object) : array
+    public function toArray($object) : array
     {
         if ($object instanceof Collection) {
             return $this->getValue($object);

@@ -22,5 +22,5 @@ interface SerializerInterface
      * @param object $object
      * @return array
      */
-    public function toArray(object $object) : array;
+    public function toArray($object) : array;
 }

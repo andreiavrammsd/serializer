@@ -11,5 +11,5 @@ interface ObjectHandlerInterface extends HandlerInterface
      * @param object $object
      * @param array $data
      */
-    public function setObject($definition, object $object, array $data);
+    public function setObject($definition, $object, array $data);
 }
