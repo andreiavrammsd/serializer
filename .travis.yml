@@ -3,7 +3,9 @@ sudo: required
 language: minimal
 
 install:
-- make install
+- make install PHPVERSION=7.1
+- make install PHPVERSION=7.2
 
 script:
-- make
+- make PHPVERSION=7.1
+- make PHPVERSION=7.2

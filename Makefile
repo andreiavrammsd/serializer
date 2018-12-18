@@ -1,11 +1,15 @@
-.PHONY: build
+.PHONY: build push install qa run clean
 
-IMAGE := andreiavrammsd/serializer
+ifndef PHPVERSION
+$(error PHPVERSION is not set)
+endif
+
+IMAGE := andreiavrammsd/serializer:php$(PHPVERSION)
 
 all: qa
 
 build:
-	docker build . -f dev/Dockerfile -t $(IMAGE)
+	docker build --build-arg PHPVERSION=$(PHPVERSION) . -f dev/Dockerfile -t $(IMAGE)
 
 push:
 	docker push $(IMAGE)
