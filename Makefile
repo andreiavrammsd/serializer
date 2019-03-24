@@ -11,11 +11,7 @@ all: qa
 build:
 	docker build --build-arg PHPVERSION=$(PHPVERSION) . -f dev/Dockerfile -t $(IMAGE)
 
-push:
-	docker push $(IMAGE)
-
 install:
-	docker pull $(IMAGE)
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) composer install
 
 qa:

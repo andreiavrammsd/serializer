@@ -64,7 +64,7 @@ Add @Serializer\IgnoreNull() annotation to ignore null values.
 
 ## Development
 * Requirements: Docker, Make
-* Install dev container: make install PHPVERSION=7.2
-* Run QA tools: make PHPVERSION=7.2
-* Work inside dev container: make run PHPVERSION=7.2 ./dev/qa.sh
-* Remove docker image: make clean PHPVERSION=7.2
+* Install dev container: make install PHPVERSION=7.3
+* Run QA tools: make PHPVERSION=7.3
+* Work inside dev container: make run PHPVERSION=7.3 then ./dev/qa.sh
+* Remove docker image: make clean PHPVERSION=7.3
