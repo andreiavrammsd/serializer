@@ -4,6 +4,7 @@ namespace Serializer\ObjectToArray;
 
 use Serializer\Collection;
 use Serializer\DefinitionPatterns;
+use ReflectionClass;
 
 final class ObjectToArray implements ObjectToArrayInterface
 {
@@ -18,7 +19,7 @@ final class ObjectToArray implements ObjectToArrayInterface
 
         $data = [];
 
-        $class = new \ReflectionClass($object);
+        $class = new ReflectionClass($object);
         $properties = $class->getProperties();
 
         foreach ($properties as $property) {

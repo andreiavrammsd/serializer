@@ -38,7 +38,7 @@ class Callback implements PropertyHandlerInterface
         $method = trim($args[2]);
 
         return [
-            new $class,
+            new $class(),
             $method,
         ];
     }

@@ -5,6 +5,7 @@ namespace Serializer\Handlers\Property;
 use Serializer\Collection;
 use Serializer\Parser\ParserInterface;
 use Serializer\Parser\Variable;
+use DateTime;
 
 class Type implements PropertyHandlerInterface
 {
@@ -99,7 +100,7 @@ class Type implements PropertyHandlerInterface
     private function getDateTime($timestamp, array $formats)
     {
         if (is_int($timestamp)) {
-            $dateTime = new \DateTime();
+            $dateTime = new DateTime();
             $dateTime->setTimestamp($timestamp);
             return $dateTime;
         }

@@ -6,6 +6,7 @@ use Serializer\Handlers\HandlerInterface;
 use Serializer\Handlers\Object\ObjectHandlerInterface;
 use Serializer\Handlers\Property\PropertyHandlerInterface;
 use Serializer\DefinitionPatterns;
+use ReflectionClass;
 
 class Parser implements ParserInterface
 {
@@ -40,7 +41,7 @@ class Parser implements ParserInterface
      */
     public function parse(array $data, string $class)
     {
-        $reflectionClass = new \ReflectionClass($class);
+        $reflectionClass = new ReflectionClass($class);
         $object = $reflectionClass->newInstanceWithoutConstructor();
 
         $this->parseClass($reflectionClass, $object, $data);
