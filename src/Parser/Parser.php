@@ -4,6 +4,7 @@ namespace Serializer\Parser;
 
 use Exception;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionProperty;
 use Serializer\DefinitionPatterns;
 use Serializer\Handlers\HandlerInterface;
@@ -34,7 +35,7 @@ class Parser implements ParserInterface
      * @param HandlerInterface $handler
      * @return string
      */
-    private function getHandlerName(HandlerInterface $handler)
+    private function getHandlerName(HandlerInterface $handler): string
     {
         $className = get_class($handler);
 
@@ -51,6 +52,8 @@ class Parser implements ParserInterface
 
     /**
      * {@inheritdoc}
+     * @throws ReflectionException
+     * @throws Exception
      */
     public function parse(array $data, string $class)
     {
