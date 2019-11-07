@@ -17,6 +17,15 @@ interface SerializerInterface
     public function unserialize(string $input, string $class);
 
     /**
+     * Converts object to string representation
+     *
+     * @param mixed $object
+     * @return string
+     * @throws InvalidInputException
+     */
+    public function serialize($object) : string;
+
+    /**
      * Converts input object to array
      *
      * @param object $object

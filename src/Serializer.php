@@ -24,18 +24,26 @@ class Serializer implements SerializerInterface
     private $objectToArray;
 
     /**
+     * @var ObjectToArrayInterface|null
+     */
+    private $objectToArrayFormat;
+
+    /**
      * @param FormatInterface $format
      * @param ParserInterface $parser
      * @param ObjectToArrayInterface $objectToArray
+     * @param ObjectToArrayInterface|null $objectToArrayFormat
      */
     public function __construct(
         FormatInterface $format,
         ParserInterface $parser,
-        ObjectToArrayInterface $objectToArray
+        ObjectToArrayInterface $objectToArray,
+        ObjectToArrayInterface $objectToArrayFormat = null
     ) {
         $this->format = $format;
         $this->parser = $parser;
         $this->objectToArray = $objectToArray;
+        $this->objectToArrayFormat = $objectToArrayFormat;
     }
 
     /**
@@ -46,6 +54,21 @@ class Serializer implements SerializerInterface
         $data = $this->format->decode($input);
 
         return $this->parser->parse($data, $class);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @throws SerializerException
+     */
+    public function serialize($object) : string
+    {
+        if ($this->objectToArrayFormat === null) {
+            throw new SerializerException('objectToArrayFormat not set');
+        }
+
+        $array = $this->objectToArrayFormat->toArray($object);
+
+        return $this->format->encode($array);
     }
 
     /**
