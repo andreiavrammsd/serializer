@@ -3,8 +3,6 @@
 namespace Serializer\Tests\ObjectToArray\Data;
 
 use Serializer\Collection;
-use Serializer\ToArray\ToArrayInterface;
-use Serializer\ToArray\ToArrayTrait;
 
 class ForecastWeather
 {
