@@ -2,7 +2,10 @@
 
 namespace Serializer\Tests\ObjectToArray;
 
+use Exception;
+use DateTime;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Serializer\Collection;
 use Serializer\ObjectToArray\ObjectToArray;
 use Serializer\ObjectToArray\ObjectToArrayInterface;
@@ -31,6 +34,7 @@ class ObjectToArrayTest extends TestCase
      * @dataProvider data
      * @param object $object
      * @param array $expected
+     * @throws ReflectionException
      */
     public function testToArray($object, array $expected)
     {
@@ -40,13 +44,13 @@ class ObjectToArrayTest extends TestCase
 
     /**
      * @return array
+     * @throws Exception
      */
     public function data() : array
     {
         $forecast = new Forecast();
 
         $location = new Location();
-        $location->setId(null);
         $location->setName('Paris');
         $location->setLat(34);
         $location->setTimezone('Europe/Paris');
@@ -73,6 +77,8 @@ class ObjectToArrayTest extends TestCase
 
         $forecastDayItem = new ForecastDay();
         $forecastDayItem->setDate(new \DateTime('2018-10-19'));
+        $forecastDayItem->setWrongDate(new \DateTime('2018-10-19'));
+        $forecastDayItem->setWrongDateArgs(new \DateTime('2018-10-19'));
         $forecastDayItem->setDay($day);
         $forecastDayItem->setAstro($astro);
         $astro2 = clone $astro;
@@ -115,7 +121,9 @@ class ObjectToArrayTest extends TestCase
             'forecast' => [
                 'forecastday' => [
                     0 => [
-                        'date' => new \DateTime('2018-10-19'),
+                        'date' => $this->getDate('2018-10-19'),
+                        'wrong_date' => $this->getWrongDate('2018-10-19'),
+                        'wrong_date_args' => $this->getWrongDate('2018-10-19'),
                         'day' => [
                             'avghumidity' => (object)34.4,
                             'condition' => [
@@ -135,7 +143,9 @@ class ObjectToArrayTest extends TestCase
                         ],
                     ],
                     1 => [
-                        'date' => new \DateTime('2018-10-20'),
+                        'date' => $this->getDate('2018-10-20'),
+                        'wrong_date' => $this->getWrongDate('2018-10-19'),
+                        'wrong_date_args' => $this->getWrongDate('2018-10-19'),
                         'day' => [
                             'avghumidity' => (object)34.4,
                             'condition' => [
@@ -168,5 +178,25 @@ class ObjectToArrayTest extends TestCase
                 [$expected, $expected,],
             ],
         ];
+    }
+
+    /**
+     * @param string $date
+     * @return DateTime
+     * @throws Exception
+     */
+    protected function getDate(string $date)
+    {
+        return new DateTime($date);
+    }
+
+    /**
+     * @param string $date
+     * @return DateTime
+     * @throws Exception
+     */
+    protected function getWrongDate(string $date)
+    {
+        return $this->getDate($date);
     }
 }

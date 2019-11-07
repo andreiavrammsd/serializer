@@ -4,4 +4,6 @@ namespace Serializer\Tests\Data;
 
 class Person
 {
+    public $name;
+    public $age;
 }
