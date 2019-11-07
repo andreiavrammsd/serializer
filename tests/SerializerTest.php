@@ -7,6 +7,7 @@ use Serializer\Format\FormatInterface;
 use Serializer\ObjectToArray\ObjectToArrayInterface;
 use Serializer\Parser\ParserInterface;
 use Serializer\Serializer;
+use Serializer\SerializerException;
 use Serializer\Tests\Data\Person;
 
 class SerializerTest extends TestCase
@@ -71,15 +72,15 @@ class SerializerTest extends TestCase
         $this->assertEquals($expectedString, $actual);
     }
 
-    /**
-     * @expectedException \Serializer\SerializerException
-     * @throws \Serializer\Format\InvalidInputException
-     * @throws \Serializer\SerializerException
-     */
     public function testSerializeWithObjectToArrayException()
     {
-        $serializer = new Serializer($this->format, $this->parser, $this->objectToArray);
-        $serializer->serialize(null);
+        try {
+            $serializer = new Serializer($this->format, $this->parser, $this->objectToArray);
+            $serializer->serialize(null);
+            $this->fail('No exception was thrown');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(SerializerException::class, $e);
+        }
     }
 
     public function testToArray()
