@@ -1,9 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests\ObjectToArray;
 
-use Exception;
 use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use Serializer\Collection;
@@ -46,7 +46,7 @@ class ObjectToArrayTest extends TestCase
      * @return array
      * @throws Exception
      */
-    public function data() : array
+    public function data(): array
     {
         $forecast = new Forecast();
 
@@ -76,9 +76,9 @@ class ObjectToArrayTest extends TestCase
         $astro->setSunrise(null);
 
         $forecastDayItem = new ForecastDay();
-        $forecastDayItem->setDate(new \DateTime('2018-10-19'));
-        $forecastDayItem->setWrongDate(new \DateTime('2018-10-19'));
-        $forecastDayItem->setWrongDateArgs(new \DateTime('2018-10-19'));
+        $forecastDayItem->setDate(new DateTime('2018-10-19'));
+        $forecastDayItem->setWrongDate(new DateTime('2018-10-19'));
+        $forecastDayItem->setWrongDateArgs(new DateTime('2018-10-19'));
         $forecastDayItem->setDay($day);
         $forecastDayItem->setAstro($astro);
         $astro2 = clone $astro;
@@ -88,7 +88,7 @@ class ObjectToArrayTest extends TestCase
         $forecastDayItem->setAstros([$astro2, $astro3]);
 
         $forecastDayItem2 = clone $forecastDayItem;
-        $forecastDayItem2->setDate(new \DateTime('2018-10-20'));
+        $forecastDayItem2->setDate(new DateTime('2018-10-20'));
 
         $forecastDayData = [
             $forecastDayItem,

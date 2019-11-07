@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer;
 
@@ -23,7 +23,7 @@ interface SerializerInterface
      * @return string
      * @throws InvalidInputException
      */
-    public function serialize($object) : string;
+    public function serialize($object): string;
 
     /**
      * Converts input object to array
@@ -31,5 +31,5 @@ interface SerializerInterface
      * @param object $object
      * @return array
      */
-    public function toArray($object) : array;
+    public function toArray($object): array;
 }

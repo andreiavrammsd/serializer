@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer;
 
@@ -13,7 +13,7 @@ final class Factory
      * @return SerializerInterface
      * @throws UnknownFormatException
      */
-    public static function create(string $format = SerializerBuilder::DEFAULT_FORMAT) : SerializerInterface
+    public static function create(string $format = SerializerBuilder::DEFAULT_FORMAT): SerializerInterface
     {
         return SerializerBuilder::instance()->setFormat($format)->build();
     }

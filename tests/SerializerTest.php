@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Serializer\Format\FormatInterface;
 use Serializer\ObjectToArray\ObjectToArrayInterface;
@@ -78,7 +79,7 @@ class SerializerTest extends TestCase
             $serializer = new Serializer($this->format, $this->parser, $this->objectToArray);
             $serializer->serialize(null);
             $this->fail('No exception was thrown');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertInstanceOf(SerializerException::class, $e);
         }
     }

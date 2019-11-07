@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests\Parser;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Serializer\Collection;
 use Serializer\Handlers\Property\Callback;
@@ -31,7 +32,7 @@ class ParserTest extends TestCase
         $this->parser = new Parser();
 
         $objectHandlers = [
-            \Serializer\Handlers\Object\Collection::class,
+            \Serializer\Handlers\object\Collection::class,
         ];
         $propertyHandlers = [
             Property::class,
@@ -126,7 +127,7 @@ class ParserTest extends TestCase
         $this->assertSame('-0.11', $location->getLon());
         $this->assertSame('Europe/London', $location->timezone);
         $this->assertSame(1531989523, $location->getLocaltimeEpoch());
-        $this->assertEquals(\DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
+        $this->assertEquals(DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
         $this->assertNull($location->localtime2);
         $this->assertSame([1, 'a'], $location->values);
 
@@ -187,7 +188,7 @@ class ParserTest extends TestCase
         $this->assertNull($object->points3);
         $this->assertContainsOnlyInstancesOf($class, $object->friends);
         $this->assertCount(2, $object->friends);
-        $this->assertEquals((new \DateTime())->setTimestamp(1538516060), $object->updated);
+        $this->assertEquals((new DateTime())->setTimestamp(1538516060), $object->updated);
 
         /** @var User[] $friends */
         $friends = $object->friends;

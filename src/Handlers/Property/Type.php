@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Handlers\Property;
 
+use DateTime;
 use Exception;
 use Serializer\Collection;
 use Serializer\Parser\ParserInterface;
 use Serializer\Parser\Variable;
-use DateTime;
 
 class Type implements PropertyHandlerInterface
 {

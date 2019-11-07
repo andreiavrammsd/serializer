@@ -22,7 +22,7 @@ final class JsonFormat implements FormatInterface
     /**
      * {@inheritdoc}
      */
-    public function encode($object) : string
+    public function encode($object): string
     {
         $result = json_encode($object);
 

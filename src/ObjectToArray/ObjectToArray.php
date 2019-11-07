@@ -3,10 +3,11 @@
 namespace Serializer\ObjectToArray;
 
 use DateTime;
+use ReflectionClass;
 use ReflectionException;
 use Serializer\Collection;
 use Serializer\DefinitionPatterns;
-use ReflectionClass;
+use stdClass;
 
 class ObjectToArray implements ObjectToArrayInterface
 {
@@ -86,11 +87,20 @@ class ObjectToArray implements ObjectToArrayInterface
             return false;
         }
 
-        if ($value instanceof \stdClass) {
+        if ($value instanceof stdClass) {
             return false;
         }
 
         return is_object($value);
+    }
+
+    /**
+     * @param string $doc
+     * @return bool
+     */
+    private function ignoreNull(string $doc): bool
+    {
+        return strpos($doc, DefinitionPatterns::IGNORE_NULL) !== false;
     }
 
     /**
@@ -106,14 +116,5 @@ class ObjectToArray implements ObjectToArrayInterface
         }
 
         return $key;
-    }
-
-    /**
-     * @param string $doc
-     * @return bool
-     */
-    private function ignoreNull(string $doc): bool
-    {
-        return strpos($doc, DefinitionPatterns::IGNORE_NULL) !== false;
     }
 }

@@ -1,9 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Serializer\Format\UnknownFormatException;
+use Serializer\Handlers\Object\Collection;
+use Serializer\Handlers\Property\Type;
 use Serializer\SerializerBuilder;
 use Serializer\SerializerException;
 use Serializer\SerializerInterface;
@@ -15,10 +18,10 @@ class SerializerBuilderTest extends TestCase
         $serializer = SerializerBuilder::instance()
             ->setFormat('json')
             ->setObjectHandlers([
-                \Serializer\Handlers\Object\Collection::class,
+                Collection::class,
             ])
             ->setPropertyHandlers([
-                \Serializer\Handlers\Property\Type::class,
+                Type::class,
             ])
             ->build();
 
@@ -32,7 +35,7 @@ class SerializerBuilderTest extends TestCase
                 ->setFormat('unknown')
                 ->build();
             $this->fail('No exception was thrown');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertInstanceOf(SerializerException::class, $e);
             $this->assertInstanceOf(UnknownFormatException::class, $e);
         }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer;
 
@@ -60,7 +60,7 @@ class Serializer implements SerializerInterface
      * {@inheritdoc}
      * @throws SerializerException
      */
-    public function serialize($object) : string
+    public function serialize($object): string
     {
         if ($this->objectToArrayFormat === null) {
             throw new SerializerException('objectToArrayFormat not set');
@@ -74,7 +74,7 @@ class Serializer implements SerializerInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray($object) : array
+    public function toArray($object): array
     {
         return $this->objectToArray->toArray($object);
     }

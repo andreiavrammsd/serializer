@@ -14,7 +14,7 @@ class ForecastDay
      */
     private $date;
 
-   /**
+    /**
      * @var DateTime
      *
      * @Serializer\Property("wrong_date")
