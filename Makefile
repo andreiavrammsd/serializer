@@ -1,27 +1,23 @@
 .PHONY: build push install qa run clean
 
-ifndef PHPVERSION
-$(error PHPVERSION is not set)
-endif
-
 IMAGE := andreiavrammsd/serializer:php$(PHPVERSION)
 VENDOR := ./vendor
 
 all: qa
 
-build:
+build: check-php-version
 	docker build --build-arg PHPVERSION=$(PHPVERSION) . -f dev/Dockerfile -t $(IMAGE)
 
-install:
+install: check-php-version
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) composer install
 
-qa:
-	docker run -ti --rm -v $(CURDIR):/src -e PHPVERSION=$(PHPVERSION) $(IMAGE) make localqa
+qa: check-php-version
+	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) make localqa
 
-run:
-	docker run -ti --rm -v $(CURDIR):/src -e PHPVERSION=$(PHPVERSION) $(IMAGE) sh
+run: check-php-version
+	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) sh
 
-clean:
+clean: check-php-version
 	docker rmi $(IMAGE)
 
 localqa:
@@ -31,3 +27,8 @@ localqa:
 	${VENDOR}/squizlabs/php_codesniffer/bin/phpcs --standard=PSR2 src
 	${VENDOR}/squizlabs/php_codesniffer/bin/phpcbf --standard=PSR2 src
 	${VENDOR}/phpmd/phpmd/src/bin/phpmd src text phpmd.xml
+
+check-php-version:
+ifndef PHPVERSION
+	$(error PHPVERSION is not set)
+endif
