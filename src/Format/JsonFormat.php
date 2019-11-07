@@ -24,7 +24,7 @@ final class JsonFormat implements FormatInterface
      */
     public function encode($object) : string
     {
-        $result = json_encode($object, JSON_FORCE_OBJECT);
+        $result = json_encode($object);
 
         $err = json_last_error();
         if ($err !== JSON_ERROR_NONE) {
