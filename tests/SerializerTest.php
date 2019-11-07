@@ -4,7 +4,6 @@ namespace Serializer\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Serializer\Format\FormatInterface;
-use Serializer\ObjectToArray\ObjectToArray;
 use Serializer\ObjectToArray\ObjectToArrayInterface;
 use Serializer\Parser\ParserInterface;
 use Serializer\Serializer;
@@ -71,7 +70,6 @@ class SerializerTest extends TestCase
         $actual = $serializer->serialize($input);
         $this->assertEquals($expectedString, $actual);
     }
-
 
     /**
      * @expectedException \Serializer\SerializerException
