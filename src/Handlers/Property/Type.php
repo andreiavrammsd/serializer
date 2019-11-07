@@ -2,6 +2,7 @@
 
 namespace Serializer\Handlers\Property;
 
+use Exception;
 use Serializer\Collection;
 use Serializer\Parser\ParserInterface;
 use Serializer\Parser\Variable;
@@ -95,7 +96,8 @@ class Type implements PropertyHandlerInterface
     /**
      * @param mixed $timestamp
      * @param array $formats
-     * @return \DateTime|null
+     * @return DateTime|null
+     * @throws Exception
      */
     private function getDateTime($timestamp, array $formats)
     {
@@ -107,7 +109,7 @@ class Type implements PropertyHandlerInterface
 
         if (is_string($timestamp)) {
             foreach ($formats as $format) {
-                $dateTime = \DateTime::createFromFormat($format, $timestamp);
+                $dateTime = DateTime::createFromFormat($format, $timestamp);
                 if (false !== $dateTime) {
                     return $dateTime;
                 }
