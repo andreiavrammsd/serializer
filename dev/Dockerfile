@@ -1,5 +1,5 @@
 ARG PHPVERSION
-FROM php:$PHPVERSION-cli-alpine3.8
+FROM php:$PHPVERSION-cli-alpine3.10
 
 RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \

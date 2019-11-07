@@ -5,6 +5,7 @@ $(error PHPVERSION is not set)
 endif
 
 IMAGE := andreiavrammsd/serializer:php$(PHPVERSION)
+VENDOR := ./vendor
 
 all: qa
 
@@ -15,10 +16,18 @@ install:
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) composer install
 
 qa:
-	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) ./dev/qa.sh
+	docker run -ti --rm -v $(CURDIR):/src -e PHPVERSION=$(PHPVERSION) $(IMAGE) make localqa
 
 run:
-	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) sh
+	docker run -ti --rm -v $(CURDIR):/src -e PHPVERSION=$(PHPVERSION) $(IMAGE) sh
 
 clean:
 	docker rmi $(IMAGE)
+
+localqa:
+	${VENDOR}/phpunit/phpunit/phpunit -c phpunit.xml
+	${VENDOR}/phpstan/phpstan/bin/phpstan analyse --level 7 --memory-limit 64M src
+	${VENDOR}/overtrue/phplint/bin/phplint -c phplint.yml
+	${VENDOR}/squizlabs/php_codesniffer/bin/phpcs --standard=PSR2 src
+	${VENDOR}/squizlabs/php_codesniffer/bin/phpcbf --standard=PSR2 src
+	${VENDOR}/phpmd/phpmd/src/bin/phpmd src text phpmd.xml
