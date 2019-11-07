@@ -27,4 +27,23 @@ class JsonFormatTest extends TestCase
             $this->assertInstanceOf(InvalidInputException::class, $e);
         }
     }
+
+    public function testEncode()
+    {
+        $format = FormatFactory::get('json');
+        $result = $format->encode(['a' => 1]);
+        $this->assertSame('{"a":1}', $result);
+    }
+
+    public function testEncodeFail()
+    {
+        try {
+            $format = FormatFactory::get('json');
+            $format->encode(NAN);
+            $this->fail('No exception was thrown');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(SerializerException::class, $e);
+            $this->assertInstanceOf(InvalidInputException::class, $e);
+        }
+    }
 }

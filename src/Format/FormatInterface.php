@@ -10,4 +10,11 @@ interface FormatInterface
      * @throws InvalidInputException
      */
     public function decode(string $string);
+
+    /**
+     * @param mixed $object
+     * @return string
+     * @throws InvalidInputException
+     */
+    public function encode($object) : string;
 }
