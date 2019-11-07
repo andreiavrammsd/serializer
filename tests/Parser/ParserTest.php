@@ -4,6 +4,9 @@ namespace Serializer\Tests\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Serializer\Collection;
+use Serializer\Handlers\Property\Callback;
+use Serializer\Handlers\Property\Property;
+use Serializer\Handlers\Property\Type;
 use Serializer\Parser\Parser;
 use Serializer\Parser\ParserInterface;
 use Serializer\Tests\Parser\Data\Response\Condition;
@@ -31,9 +34,9 @@ class ParserTest extends TestCase
             \Serializer\Handlers\Object\Collection::class,
         ];
         $propertyHandlers = [
-            \Serializer\Handlers\Property\Property::class,
-            \Serializer\Handlers\Property\Type::class,
-            \Serializer\Handlers\Property\Callback::class,
+            Property::class,
+            Type::class,
+            Callback::class,
         ];
 
         foreach ($objectHandlers as $class) {
@@ -201,7 +204,6 @@ class ParserTest extends TestCase
         $this->assertSame(2, $friends2[1]->getAge());
 
         unset($friends2[1]);
-        $this->assertFalse(array_key_exists(1, $friends2));
 
         $friends2[1] = $friends2[0];
         $this->assertSame($friends2[1], $friends2[0]);
