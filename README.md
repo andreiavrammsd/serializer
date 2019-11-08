@@ -25,7 +25,7 @@ $serializer->serialize($object);
 $serializer->toArray($object);
 ```
 
-See [tests](./tests).
+See [examples](./examples) and [tests](./tests).
 
 ## Property annotations (all annotations are optional)
 * Property: name of key in input. If not set, the variable name is used.
