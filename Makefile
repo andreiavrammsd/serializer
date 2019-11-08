@@ -32,3 +32,15 @@ check-php-version:
 ifndef PHPVERSION
 	$(error PHPVERSION is not set)
 endif
+
+fulltest:
+	sudo rm -rf vendor composer.lock && \
+		make PHPVERSION=$(PHPVERSION) clean && \
+		make PHPVERSION=$(PHPVERSION) build && \
+		make PHPVERSION=$(PHPVERSION) install && \
+		make PHPVERSION=$(PHPVERSION)
+
+testall:
+	make fulltest PHPVERSION=7.1
+	make fulltest PHPVERSION=7.2
+	make fulltest PHPVERSION=7.3
