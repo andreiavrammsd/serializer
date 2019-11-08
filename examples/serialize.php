@@ -7,7 +7,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 require __DIR__ . '/data.php';
 
 try {
-    $serializer = Factory::create('');
+    $serializer = Factory::create();
 } catch (SerializerException $e) {
     die($e->getMessage());
 }
