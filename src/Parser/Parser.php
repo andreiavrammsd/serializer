@@ -32,17 +32,6 @@ class Parser implements ParserInterface
     }
 
     /**
-     * @param HandlerInterface $handler
-     * @return string
-     */
-    private function getHandlerName(HandlerInterface $handler): string
-    {
-        $className = get_class($handler);
-
-        return substr($className, strrpos($className, '\\') + 1);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function registerPropertyHandler(PropertyHandlerInterface $handler)
@@ -64,6 +53,17 @@ class Parser implements ParserInterface
         $this->parseProperties($reflectionClass, $object, $data);
 
         return $object;
+    }
+
+    /**
+     * @param HandlerInterface $handler
+     * @return string
+     */
+    private function getHandlerName(HandlerInterface $handler): string
+    {
+        $className = get_class($handler);
+
+        return substr($className, strrpos($className, '\\') + 1);
     }
 
     /**
