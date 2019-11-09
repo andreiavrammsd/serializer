@@ -1,9 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests\Parser;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Serializer\Collection;
+use Serializer\Handlers\Property\Callback;
+use Serializer\Handlers\Property\Property;
+use Serializer\Handlers\Property\Type;
 use Serializer\Parser\Parser;
 use Serializer\Parser\ParserInterface;
 use Serializer\Tests\Parser\Data\Response\Condition;
@@ -28,12 +32,12 @@ class ParserTest extends TestCase
         $this->parser = new Parser();
 
         $objectHandlers = [
-            \Serializer\Handlers\Object\Collection::class,
+            \Serializer\Handlers\object\Collection::class,
         ];
         $propertyHandlers = [
-            \Serializer\Handlers\Property\Property::class,
-            \Serializer\Handlers\Property\Type::class,
-            \Serializer\Handlers\Property\Callback::class,
+            Property::class,
+            Type::class,
+            Callback::class,
         ];
 
         foreach ($objectHandlers as $class) {
@@ -123,7 +127,7 @@ class ParserTest extends TestCase
         $this->assertSame('-0.11', $location->getLon());
         $this->assertSame('Europe/London', $location->timezone);
         $this->assertSame(1531989523, $location->getLocaltimeEpoch());
-        $this->assertEquals(\DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
+        $this->assertEquals(DateTime::createFromFormat('Y-m-d h:i', '2018-07-19 9:38'), $location->getLocaltime());
         $this->assertNull($location->localtime2);
         $this->assertSame([1, 'a'], $location->values);
 
@@ -184,7 +188,7 @@ class ParserTest extends TestCase
         $this->assertNull($object->points3);
         $this->assertContainsOnlyInstancesOf($class, $object->friends);
         $this->assertCount(2, $object->friends);
-        $this->assertEquals((new \DateTime())->setTimestamp(1538516060), $object->updated);
+        $this->assertEquals((new DateTime())->setTimestamp(1538516060), $object->updated);
 
         /** @var User[] $friends */
         $friends = $object->friends;
@@ -201,7 +205,6 @@ class ParserTest extends TestCase
         $this->assertSame(2, $friends2[1]->getAge());
 
         unset($friends2[1]);
-        $this->assertFalse(array_key_exists(1, $friends2));
 
         $friends2[1] = $friends2[0];
         $this->assertSame($friends2[1], $friends2[0]);

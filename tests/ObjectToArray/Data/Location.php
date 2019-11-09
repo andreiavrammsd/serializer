@@ -13,6 +13,14 @@ class Location
     private $id;
 
     /**
+     * @var string|null
+     *
+     * @Serializer\Type("string")
+     * @Serializer\IgnoreNull
+     */
+    private $category;
+
+    /**
      * @var string
      *
      * @Serializer\Type("string")

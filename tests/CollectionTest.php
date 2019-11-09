@@ -27,7 +27,7 @@ class CollectionTest extends TestCase
     /**
      * @return array
      */
-    public function collectionData() : array
+    public function collectionData(): array
     {
         return [
             [

@@ -1,24 +1,46 @@
 .PHONY: build push install qa run clean
 
-ifndef PHPVERSION
-$(error PHPVERSION is not set)
-endif
-
 IMAGE := andreiavrammsd/serializer:php$(PHPVERSION)
+VENDOR := ./vendor
 
 all: qa
 
-build:
+build: check-php-version
 	docker build --build-arg PHPVERSION=$(PHPVERSION) . -f dev/Dockerfile -t $(IMAGE)
 
-install:
+install: check-php-version
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) composer install
 
-qa:
-	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) ./dev/qa.sh
+qa: check-php-version
+	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) make localqa
 
-run:
+run: check-php-version
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) sh
 
-clean:
+clean: check-php-version
 	docker rmi $(IMAGE)
+
+localqa:
+	${VENDOR}/phpunit/phpunit/phpunit -c phpunit.xml
+	${VENDOR}/phpstan/phpstan/bin/phpstan analyse --level 7 --memory-limit 64M src
+	${VENDOR}/overtrue/phplint/bin/phplint -c phplint.yml
+	${VENDOR}/squizlabs/php_codesniffer/bin/phpcs --standard=PSR2 src
+	${VENDOR}/squizlabs/php_codesniffer/bin/phpcbf --standard=PSR2 src
+	${VENDOR}/phpmd/phpmd/src/bin/phpmd src text phpmd.xml
+
+check-php-version:
+ifndef PHPVERSION
+	$(error PHPVERSION is not set)
+endif
+
+fulltest:
+	sudo rm -rf vendor composer.lock && \
+		make PHPVERSION=$(PHPVERSION) clean && \
+		make PHPVERSION=$(PHPVERSION) build && \
+		make PHPVERSION=$(PHPVERSION) install && \
+		make PHPVERSION=$(PHPVERSION)
+
+testall:
+	make fulltest PHPVERSION=7.1
+	make fulltest PHPVERSION=7.2
+	make fulltest PHPVERSION=7.3

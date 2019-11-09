@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer;
 
@@ -9,6 +9,7 @@ use Serializer\Handlers\Property\Callback;
 use Serializer\Handlers\Property\Property;
 use Serializer\Handlers\Property\Type;
 use Serializer\ObjectToArray\ObjectToArray;
+use Serializer\ObjectToArray\ObjectToArrayFormat;
 use Serializer\Parser\Parser;
 
 final class SerializerBuilder
@@ -39,7 +40,7 @@ final class SerializerBuilder
     /**
      * @return SerializerBuilder
      */
-    public static function instance() : SerializerBuilder
+    public static function instance(): SerializerBuilder
     {
         return new static();
     }
@@ -59,7 +60,7 @@ final class SerializerBuilder
      * @param array $handlers
      * @return SerializerBuilder
      */
-    public function setObjectHandlers(array $handlers) : SerializerBuilder
+    public function setObjectHandlers(array $handlers): SerializerBuilder
     {
         $this->objectHandlers = array_merge($this->objectHandlers, $handlers);
 
@@ -70,7 +71,7 @@ final class SerializerBuilder
      * @param array $handlers
      * @return SerializerBuilder
      */
-    public function setPropertyHandlers(array $handlers) : SerializerBuilder
+    public function setPropertyHandlers(array $handlers): SerializerBuilder
     {
         $this->propertyHandlers = array_merge($this->propertyHandlers, $handlers);
 
@@ -81,7 +82,7 @@ final class SerializerBuilder
      * @return SerializerInterface
      * @throws UnknownFormatException
      */
-    public function build() : SerializerInterface
+    public function build(): SerializerInterface
     {
         $format = FormatFactory::get($this->format);
 
@@ -94,7 +95,8 @@ final class SerializerBuilder
         }
 
         $objectToArray = new ObjectToArray();
+        $objectToArrayFormat = new ObjectToArrayFormat();
 
-        return new Serializer($format, $parser, $objectToArray);
+        return new Serializer($format, $parser, $objectToArray, $objectToArrayFormat);
     }
 }

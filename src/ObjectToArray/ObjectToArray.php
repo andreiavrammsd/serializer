@@ -2,16 +2,20 @@
 
 namespace Serializer\ObjectToArray;
 
+use DateTime;
+use ReflectionClass;
+use ReflectionException;
 use Serializer\Collection;
 use Serializer\DefinitionPatterns;
-use ReflectionClass;
+use stdClass;
 
-final class ObjectToArray implements ObjectToArrayInterface
+class ObjectToArray implements ObjectToArrayInterface
 {
     /**
      * {@inheritdoc}
+     * @throws ReflectionException
      */
-    public function toArray($object) : array
+    public function toArray($object): array
     {
         if ($object instanceof Collection) {
             return $this->getValue($object);
@@ -25,24 +29,35 @@ final class ObjectToArray implements ObjectToArrayInterface
         foreach ($properties as $property) {
             $property->setAccessible(true);
 
-            $value = $this->getValue($property->getValue($object));
             $doc = $property->getDocComment();
+            $value = $this->getValue($property->getValue($object));
+            $value = $this->formatValue($value, (string)$doc);
             if ($value === null && $doc !== false && $this->ignoreNull($doc)) {
                 continue;
             }
 
             $key = $this->getKey($property->getName(), (string)$doc);
-
             $data[$key] = $value;
         }
 
         return $data;
     }
 
+    /**
+     * @param mixed $value
+     * @param string|null $doc
+     * @return mixed
+     * @SuppressWarnings("unused")
+     */
+    protected function formatValue($value, string $doc = null)
+    {
+        return $value;
+    }
 
     /**
      * @param mixed $value
      * @return mixed
+     * @throws ReflectionException
      */
     private function getValue($value)
     {
@@ -66,13 +81,13 @@ final class ObjectToArray implements ObjectToArrayInterface
      * @param mixed $value
      * @return bool
      */
-    private function isObject($value) : bool
+    private function isObject($value): bool
     {
-        if ($value instanceof \DateTime) {
+        if ($value instanceof DateTime) {
             return false;
         }
 
-        if ($value instanceof \stdClass) {
+        if ($value instanceof stdClass) {
             return false;
         }
 
@@ -80,11 +95,20 @@ final class ObjectToArray implements ObjectToArrayInterface
     }
 
     /**
+     * @param string $doc
+     * @return bool
+     */
+    private function ignoreNull(string $doc): bool
+    {
+        return strpos($doc, DefinitionPatterns::IGNORE_NULL) !== false;
+    }
+
+    /**
      * @param string $key
      * @param string $doc
      * @return string
      */
-    private function getKey(string $key, string $doc) : string
+    private function getKey(string $key, string $doc): string
     {
         preg_match(DefinitionPatterns::PROPERTY, $doc, $match);
         if ($match) {
@@ -92,14 +116,5 @@ final class ObjectToArray implements ObjectToArrayInterface
         }
 
         return $key;
-    }
-
-    /**
-     * @param string $doc
-     * @return bool
-     */
-    private function ignoreNull(string $doc) : bool
-    {
-        return strpos($doc, DefinitionPatterns::IGNORE_NULL) !== false;
     }
 }

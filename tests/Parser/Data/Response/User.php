@@ -42,16 +42,16 @@ class User
     public $points3;
 
     /**
-     * @Serializer\Property("age")
-     * @Serializer\Type("int")
-     */
-    private $age;
-
-    /**
      * @Serializer\Property("updated")
      * @Serializer\Type("DateTime")
      */
     public $updated;
+
+    /**
+     * @Serializer\Property("age")
+     * @Serializer\Type("int")
+     */
+    private $age;
 
     public function getAge()
     {

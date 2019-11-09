@@ -1,12 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Parser;
 
+use Exception;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionProperty;
+use Serializer\DefinitionPatterns;
 use Serializer\Handlers\HandlerInterface;
 use Serializer\Handlers\Object\ObjectHandlerInterface;
 use Serializer\Handlers\Property\PropertyHandlerInterface;
-use Serializer\DefinitionPatterns;
-use ReflectionClass;
 
 class Parser implements ParserInterface
 {
@@ -38,6 +41,8 @@ class Parser implements ParserInterface
 
     /**
      * {@inheritdoc}
+     * @throws ReflectionException
+     * @throws Exception
      */
     public function parse(array $data, string $class)
     {
@@ -54,7 +59,7 @@ class Parser implements ParserInterface
      * @param HandlerInterface $handler
      * @return string
      */
-    private function getHandlerName(HandlerInterface $handler)
+    private function getHandlerName(HandlerInterface $handler): string
     {
         $className = get_class($handler);
 
@@ -62,11 +67,11 @@ class Parser implements ParserInterface
     }
 
     /**
-     * @param \ReflectionClass $reflectionClass
+     * @param ReflectionClass $reflectionClass
      * @param object $object
      * @param array $data
      */
-    private function parseClass(\ReflectionClass $reflectionClass, $object, array $data)
+    private function parseClass(ReflectionClass $reflectionClass, $object, array $data)
     {
         $definitions = $this->getDefinitions((string)$reflectionClass->getDocComment());
 
@@ -84,11 +89,28 @@ class Parser implements ParserInterface
     }
 
     /**
-     * @param \ReflectionClass $reflectionClass
+     * @param string $comment
+     * @return array
+     */
+    private function getDefinitions(string $comment): array
+    {
+        $definitions = [];
+        preg_match_all(DefinitionPatterns::DEFINITION, $comment, $matches);
+
+        foreach ($matches[1] as $key => $value) {
+            $definitions[$value][] = $matches[2][$key];
+        }
+
+        return $definitions;
+    }
+
+    /**
+     * @param ReflectionClass $reflectionClass
      * @param object $object
      * @param array $data
+     * @throws Exception
      */
-    private function parseProperties(\ReflectionClass $reflectionClass, $object, array $data)
+    private function parseProperties(ReflectionClass $reflectionClass, $object, array $data)
     {
         foreach ($reflectionClass->getProperties() as $property) {
             $definitions = $this->getDefinitions((string)$property->getDocComment());
@@ -111,27 +133,11 @@ class Parser implements ParserInterface
     }
 
     /**
-     * @param string $comment
-     * @return array
-     */
-    private function getDefinitions(string $comment) : array
-    {
-        $definitions = [];
-        preg_match_all(DefinitionPatterns::DEFINITION, $comment, $matches);
-
-        foreach ($matches[1] as $key => $value) {
-            $definitions[$value][] = $matches[2][$key];
-        }
-
-        return $definitions;
-    }
-
-    /**
-     * @param \ReflectionProperty $property
+     * @param ReflectionProperty $property
      * @param array $data
      * @return mixed
      */
-    private function getDefaultValue(\ReflectionProperty $property, array $data)
+    private function getDefaultValue(ReflectionProperty $property, array $data)
     {
         $name = $property->getName();
 

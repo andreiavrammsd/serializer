@@ -1,11 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Parser;
+
+use ReflectionProperty;
 
 class Variable
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     private $property;
 
@@ -15,10 +17,10 @@ class Variable
     private $object;
 
     /**
-     * @param \ReflectionProperty $property
+     * @param ReflectionProperty $property
      * @param mixed $object
      */
-    public function __construct(\ReflectionProperty $property, $object)
+    public function __construct(ReflectionProperty $property, $object)
     {
         $this->property = $property;
         $this->property->setAccessible(true);

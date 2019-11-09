@@ -1,12 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Serializer\Format\FormatInterface;
 use Serializer\ObjectToArray\ObjectToArrayInterface;
 use Serializer\Parser\ParserInterface;
 use Serializer\Serializer;
+use Serializer\SerializerException;
 use Serializer\Tests\Data\Person;
 
 class SerializerTest extends TestCase
@@ -14,12 +16,14 @@ class SerializerTest extends TestCase
     private $format;
     private $parser;
     private $objectToArray;
+    private $objectToArrayFormat;
 
     protected function setUp()
     {
         $this->format = $this->createMock(FormatInterface::class);
         $this->parser = $this->createMock(ParserInterface::class);
         $this->objectToArray = $this->createMock(ObjectToArrayInterface::class);
+        $this->objectToArrayFormat = $this->createMock(ObjectToArrayInterface::class);
     }
 
     public function testUnserialize()
@@ -41,6 +45,43 @@ class SerializerTest extends TestCase
 
         $object = $serializer->unserialize($input, $class);
         $this->assertEquals($expected, $object);
+    }
+
+    public function testSerialize()
+    {
+        $input = new Person();
+        $input->name = 'John Doe';
+        $input->age = 32;
+        $expected = [
+            'name' => 'John Doe',
+            'age' => 32,
+        ];
+        $expectedString = json_encode($expected);
+
+        $this->objectToArrayFormat->expects($this->once())
+            ->method('toArray')
+            ->with($input)
+            ->will($this->returnValue($expected));
+        $this->format->expects($this->once())
+            ->method('encode')
+            ->with($expected)
+            ->will($this->returnValue($expectedString));
+
+        $serializer = new Serializer($this->format, $this->parser, $this->objectToArray, $this->objectToArrayFormat);
+
+        $actual = $serializer->serialize($input);
+        $this->assertEquals($expectedString, $actual);
+    }
+
+    public function testSerializeWithObjectToArrayException()
+    {
+        try {
+            $serializer = new Serializer($this->format, $this->parser, $this->objectToArray);
+            $serializer->serialize(null);
+            $this->fail('No exception was thrown');
+        } catch (Exception $e) {
+            $this->assertInstanceOf(SerializerException::class, $e);
+        }
     }
 
     public function testToArray()

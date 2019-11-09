@@ -83,7 +83,7 @@ class Location
         return $this->name;
     }
 
-    public function getSecondaryName() : ?string
+    public function getSecondaryName(): ?string
     {
         return $this->secondaryName;
     }

@@ -2,10 +2,12 @@
 
 namespace Serializer\Tests\ObjectToArray\Data;
 
+use stdClass;
+
 class Day
 {
     /**
-     * @var \stdClass
+     * @var stdClass
      *
      * @Serializer\Property("avghumidity")
      */
@@ -22,9 +24,9 @@ class Day
     private $state;
 
     /**
-     * @param \stdClass $avgHumidity
+     * @param stdClass $avgHumidity
      */
-    public function setAvgHumidity(\stdClass $avgHumidity)
+    public function setAvgHumidity(stdClass $avgHumidity)
     {
         $this->avgHumidity = $avgHumidity;
     }

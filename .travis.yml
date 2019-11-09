@@ -15,4 +15,4 @@ before_script:
   - phpenv config-add dev/dev.ini
 
 script:
-  - ./dev/qa.sh
+  - make localqa

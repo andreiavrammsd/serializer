@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests\Format;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Serializer\Format\FormatFactory;
 use Serializer\Format\InvalidInputException;
@@ -22,7 +23,26 @@ class JsonFormatTest extends TestCase
             $format = FormatFactory::get('json');
             $format->decode('{invalid json}');
             $this->fail('No exception was thrown');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            $this->assertInstanceOf(SerializerException::class, $e);
+            $this->assertInstanceOf(InvalidInputException::class, $e);
+        }
+    }
+
+    public function testEncode()
+    {
+        $format = FormatFactory::get('json');
+        $result = $format->encode(['a' => 1]);
+        $this->assertSame('{"a":1}', $result);
+    }
+
+    public function testEncodeFail()
+    {
+        try {
+            $format = FormatFactory::get('json');
+            $format->encode(NAN);
+            $this->fail('No exception was thrown');
+        } catch (Exception $e) {
             $this->assertInstanceOf(SerializerException::class, $e);
             $this->assertInstanceOf(InvalidInputException::class, $e);
         }

@@ -66,7 +66,7 @@ class Current
     }
 
     /**
-     * @param \Serializer\Tests\ObjectToArray\Data\CurrentCondition $condition
+     * @param CurrentCondition $condition
      */
     public function setCondition($condition)
     {
@@ -76,7 +76,7 @@ class Current
     /**
      * @return bool|null
      */
-    public function isDay() : bool
+    public function isDay(): bool
     {
         return $this->day;
     }

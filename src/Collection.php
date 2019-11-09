@@ -1,8 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer;
 
-class Collection implements \Iterator, \Countable, \ArrayAccess
+use ArrayAccess;
+use Countable;
+use Iterator;
+
+class Collection implements Iterator, Countable, ArrayAccess
 {
     /**
      * @var int

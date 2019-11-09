@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer;
 
@@ -24,18 +24,26 @@ class Serializer implements SerializerInterface
     private $objectToArray;
 
     /**
+     * @var ObjectToArrayInterface|null
+     */
+    private $objectToArrayFormat;
+
+    /**
      * @param FormatInterface $format
      * @param ParserInterface $parser
      * @param ObjectToArrayInterface $objectToArray
+     * @param ObjectToArrayInterface|null $objectToArrayFormat
      */
     public function __construct(
         FormatInterface $format,
         ParserInterface $parser,
-        ObjectToArrayInterface $objectToArray
+        ObjectToArrayInterface $objectToArray,
+        ObjectToArrayInterface $objectToArrayFormat = null
     ) {
         $this->format = $format;
         $this->parser = $parser;
         $this->objectToArray = $objectToArray;
+        $this->objectToArrayFormat = $objectToArrayFormat;
     }
 
     /**
@@ -50,8 +58,23 @@ class Serializer implements SerializerInterface
 
     /**
      * {@inheritdoc}
+     * @throws SerializerException
      */
-    public function toArray($object) : array
+    public function serialize($object): string
+    {
+        if ($this->objectToArrayFormat === null) {
+            throw new SerializerException('objectToArrayFormat not set');
+        }
+
+        $array = $this->objectToArrayFormat->toArray($object);
+
+        return $this->format->encode($array);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray($object): array
     {
         return $this->objectToArray->toArray($object);
     }

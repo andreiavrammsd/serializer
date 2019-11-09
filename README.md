@@ -1,26 +1,31 @@
 # PHP Serializer
 
 Very basic serializer/unserializer/toarray. Also transforms data by types and/or callbacks.
-Currently only unserialize and toarray features are implemented, and handles only JSON.
+
+Currently handles only JSON.
 
 ## Install
+```bash
 composer require andreiavrammsd/serializer
+```
 
 ## Usage
-```
+```php
 $input = '{...}';
 $class = ObjectClass::class;
 
 $serializer = SerializerBuilder::instance()->build();
-OR
+// OR
 $serializer = Factory::create();
 
 $object = $serializer->unserialize($input, $class);
 
-print_r($serializer->toArray($object));
+$serializer->serialize($object);
+
+$serializer->toArray($object);
 ```
 
-See [tests](./tests).
+See [examples](./examples) and [tests](./tests).
 
 ## Property annotations (all annotations are optional)
 * Property: name of key in input. If not set, the variable name is used.
@@ -52,19 +57,17 @@ See [tests](./tests).
 * @Serializer\Callback("[User\NameFormatter, firstName]")
 * @Serializer\Callback("[User\NameFormatter, lastName]", "1", "3")
 
+* @Serializer\IgnoreNull() // Ignores null values when serializing or converting to array.
+
 ## Object class annotations
 * Collection: a class annotated with Collection and extending the [Collection](./src/Collection.php) class will be a collection class with its items of the specified class type.
 
 #### Examples
 * @Serializer\Collection("Entity\User")
 
-## ToArray
-Converts an object to an array.
-Add @Serializer\IgnoreNull() annotation to ignore null values.
-
 ## Development
 * Requirements: Docker, Make
 * Install dev container: make install PHPVERSION=7.3
 * Run QA tools: make PHPVERSION=7.3
-* Work inside dev container: make run PHPVERSION=7.3 then ./dev/qa.sh
+* Work inside dev container: `make run PHPVERSION=7.3` then `make localqa`
 * Remove docker image: make clean PHPVERSION=7.3

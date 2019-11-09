@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Serializer\Tests;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Serializer\Factory;
 use Serializer\Format\UnknownFormatException;
@@ -21,7 +22,7 @@ class FactoryTest extends TestCase
         try {
             Factory::create('');
             $this->fail('No exception was thrown');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertInstanceOf(SerializerException::class, $e);
             $this->assertInstanceOf(UnknownFormatException::class, $e);
         }
