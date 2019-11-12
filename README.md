@@ -71,3 +71,7 @@ See [examples](./examples) and [tests](./tests).
 * Run QA tools: make PHPVERSION=7.3
 * Work inside dev container: `make run PHPVERSION=7.3` then `make localqa`
 * Remove docker image: make clean PHPVERSION=7.3
+
+Developed with [PhpStorm](https://www.jetbrains.com/?from=serializer)
+
+<a href="https://www.jetbrains.com/?from=serializer">![JetBrains](jetbrains.svg)</a>
