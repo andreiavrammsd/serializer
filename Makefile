@@ -18,23 +18,24 @@ run: check-php-version
 	docker run -ti --rm -v $(CURDIR):/src $(IMAGE) sh
 
 clean: check-php-version
-	docker rmi $(IMAGE)
+	docker rmi $(IMAGE) || true
+	docker rmi php:$(PHPVERSION)-cli-alpine3.10 || true
 
 localqa:
-	${VENDOR}/phpunit/phpunit/phpunit -c phpunit.xml
-	${VENDOR}/phpstan/phpstan/bin/phpstan analyse --level 7 --memory-limit 64M src
-	${VENDOR}/overtrue/phplint/bin/phplint -c phplint.yml
-	${VENDOR}/squizlabs/php_codesniffer/bin/phpcs --standard=PSR2 src
-	${VENDOR}/squizlabs/php_codesniffer/bin/phpcbf --standard=PSR2 src
-	${VENDOR}/phpmd/phpmd/src/bin/phpmd src text phpmd.xml
+	$(VENDOR)/phpunit/phpunit/phpunit -c phpunit.xml
+	$(VENDOR)/phpstan/phpstan/bin/phpstan analyse --level 7 --memory-limit 64M src
+	$(VENDOR)/overtrue/phplint/bin/phplint -c phplint.yml
+	$(VENDOR)/squizlabs/php_codesniffer/bin/phpcs --standard=PSR2 src
+	$(VENDOR)/squizlabs/php_codesniffer/bin/phpcbf --standard=PSR2 src
+	$(VENDOR)/phpmd/phpmd/src/bin/phpmd src text phpmd.xml
 
 check-php-version:
 ifndef PHPVERSION
 	$(error PHPVERSION is not set)
 endif
 
-fulltest:
-	sudo rm -rf vendor composer.lock && \
+fulltest: check-php-version
+	sudo rm -rf $(VENDOR) composer.lock && \
 		make PHPVERSION=$(PHPVERSION) clean && \
 		make PHPVERSION=$(PHPVERSION) build && \
 		make PHPVERSION=$(PHPVERSION) install && \
