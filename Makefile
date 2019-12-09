@@ -45,3 +45,4 @@ testall:
 	make fulltest PHPVERSION=7.1
 	make fulltest PHPVERSION=7.2
 	make fulltest PHPVERSION=7.3
+	make fulltest PHPVERSION=7.4

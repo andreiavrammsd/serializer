@@ -126,6 +126,7 @@ class Type implements PropertyHandlerInterface
      */
     private function getDataSet($value, $type)
     {
+        $match = [];
         preg_match(self::ITEM_SET_PATTERN, $type, $match);
         if ($match) {
             $result = null;

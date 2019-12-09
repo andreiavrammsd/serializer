@@ -110,6 +110,7 @@ class ObjectToArray implements ObjectToArrayInterface
      */
     private function getKey(string $key, string $doc): string
     {
+        $match = [];
         preg_match(DefinitionPatterns::PROPERTY, $doc, $match);
         if ($match) {
             $key = $match[1];
