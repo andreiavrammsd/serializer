@@ -39,38 +39,42 @@ See [examples](./examples) and [tests](./tests).
 * Callback: A callable (function or class method) is accepted (with optional parameters). The value will be passed to the callable (with the optional parameters, if set), and the new value will be the result of the callable.
 
 #### Examples
-* @Serializer\Property("first_name")
+```
+@Serializer\Property("first_name")
 
-* @Serializer\Type("int")
-* @Serializer\Type("float")
-* @Serializer\Type("string")
-* @Serializer\Type("bool")
-* @Serializer\Type("array")
-* @Serializer\Type("collection")
-* @Serializer\Type("DateTime","Y-m-d H:i", "Y-m-d")
-* @Serializer\Type("Entity\User")
-* @Serializer\Type("array[Entity\User]")
-* @Serializer\Type("collection[Entity\User]")
+@Serializer\Type("int")
+@Serializer\Type("float")
+@Serializer\Type("string")
+@Serializer\Type("bool")
+@Serializer\Type("array")
+@Serializer\Type("collection")
+@Serializer\Type("DateTime","Y-m-d H:i", "Y-m-d")
+@Serializer\Type("Entity\User")
+@Serializer\Type("array[Entity\User]")
+@Serializer\Type("collection[Entity\User]")
 
-* @Serializer\Callback("strtoupper")
-* @Serializer\Callback("substr", "0", "3")
-* @Serializer\Callback("[User\NameFormatter, firstName]")
-* @Serializer\Callback("[User\NameFormatter, lastName]", "1", "3")
+@Serializer\Callback("strtoupper")
+@Serializer\Callback("substr", "0", "3")
+@Serializer\Callback("[User\NameFormatter, firstName]")
+@Serializer\Callback("[User\NameFormatter, lastName]", "1", "3")
 
-* @Serializer\IgnoreNull() // Ignores null values when serializing or converting to array.
+@Serializer\IgnoreNull() // Ignores null values when serializing or converting to array.
+```
 
 ## Object class annotations
 * Collection: a class annotated with Collection and extending the [Collection](./src/Collection.php) class will be a collection class with its items of the specified class type.
 
 #### Examples
-* @Serializer\Collection("Entity\User")
+```
+@Serializer\Collection("Entity\User")
+```
 
 ## Development
 * Requirements: Docker, Make
-* Install dev container: make install PHPVERSION=7.3
-* Run QA tools: make PHPVERSION=7.3
-* Work inside dev container: `make run PHPVERSION=7.3` then `make localqa`
-* Remove docker image: make clean PHPVERSION=7.3
+* Install dev container: make install PHPVERSION=7.4
+* Run QA tools: make PHPVERSION=7.4
+* Work inside dev container: `make run PHPVERSION=7.4` then `make localqa`
+* Remove docker image: make clean PHPVERSION=7.4
 
 Developed with [PhpStorm](https://www.jetbrains.com/?from=serializer)
 

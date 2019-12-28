@@ -29,6 +29,7 @@ class Callback implements PropertyHandlerInterface
      */
     private function getCallable(string $callback)
     {
+        $args = [];
         $match = preg_match(self::CLASS_CALLBACK_PATTERN, $callback, $args);
         if (!$match) {
             return $callback;

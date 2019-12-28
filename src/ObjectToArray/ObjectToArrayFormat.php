@@ -33,9 +33,11 @@ class ObjectToArrayFormat extends ObjectToArray
     {
         $format = self::DEFAULT_DATETIME_FORMAT;
 
+        $matches = [];
         if (preg_match_all(DefinitionPatterns::TYPE, $doc, $matches)) {
             $argsList = $matches[1][0];
 
+            $args = [];
             if (preg_match_all(Type::ARGUMENTS_PATTERN, $argsList, $args)) {
                 $type = $args[1][0];
 

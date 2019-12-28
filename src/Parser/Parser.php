@@ -94,9 +94,10 @@ class Parser implements ParserInterface
      */
     private function getDefinitions(string $comment): array
     {
-        $definitions = [];
+        $matches = [];
         preg_match_all(DefinitionPatterns::DEFINITION, $comment, $matches);
 
+        $definitions = [];
         foreach ($matches[1] as $key => $value) {
             $definitions[$value][] = $matches[2][$key];
         }
