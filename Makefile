@@ -36,10 +36,7 @@ endif
 
 fulltest: check-php-version
 	sudo rm -rf $(VENDOR) composer.lock && \
-		make PHPVERSION=$(PHPVERSION) clean && \
-		make PHPVERSION=$(PHPVERSION) build && \
-		make PHPVERSION=$(PHPVERSION) install && \
-		make PHPVERSION=$(PHPVERSION)
+		make PHPVERSION=$(PHPVERSION) clean build install qa
 
 testall:
 	make fulltest PHPVERSION=7.1
