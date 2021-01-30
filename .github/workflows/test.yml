@@ -28,7 +28,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        ini-values: max_execution_time=180, memory_limit=32M, error_reporting=E_ALL, display_errors=On, xdebug.mode=coverage
+        ini-values: max_execution_time=1, memory_limit=32M, error_reporting=E_ALL, display_errors=On, xdebug.mode=coverage
         coverage: xdebug        
 
     - name: Cache Composer packages
