@@ -16,9 +16,9 @@ composer require andreiavrammsd/serializer
 $input = '{...}';
 $class = ObjectClass::class;
 
-$serializer = SerializerBuilder::instance()->build();
+$serializer = Serializer\SerializerBuilder::instance()->build();
 // OR
-$serializer = Factory::create();
+$serializer = Serializer\Factory::create();
 
 $object = $serializer->unserialize($input, $class);
 
@@ -73,10 +73,12 @@ See [examples](./examples) and [tests](./tests).
 
 ## Development
 * Requirements: Docker, Make
-* Install dev container: make install PHPVERSION=7.4
-* Run QA tools: make PHPVERSION=7.4
+* Build and install dev container:
+  * `make build PHPVERSION=7.4`
+  * `make install PHPVERSION=7.4`
+* Run QA tools: `make PHPVERSION=7.4`
 * Work inside dev container: `make run PHPVERSION=7.4` then `make localqa`
-* Remove docker image: make clean PHPVERSION=7.4
+* Remove Docker image: `make clean PHPVERSION=7.4`
 
 Developed with [PhpStorm](https://www.jetbrains.com/?from=serializer)
 
