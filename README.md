@@ -1,6 +1,8 @@
 # PHP Serializer
 
-Very basic serializer/unserializer/toarray. Also transforms data by types and/or callbacks.
+[![build](https://github.com/andreiavrammsd/serializer/workflows/test/badge.svg)](https://github.com/andreiavrammsd/serializer/actions)
+
+### Very basic serializer/unserializer/toarray. Also transforms data by types and/or callbacks.
 
 Currently handles only JSON.
 
